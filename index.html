@@ -15,12 +15,12 @@
 
         body {
             min-height: 100vh;
-            background: radial-gradient(circle at 10% 20%, rgba(0, 40, 60, 0.9), rgba(0, 10, 20, 0.95));
+            background: radial-gradient(circle at 10% 20%, rgba(0, 40, 60, 0.95), rgba(0, 10, 20, 0.98));
             position: relative;
             overflow-x: hidden;
         }
 
-        /* Анимированные снежинки на фоне */
+        /* Улучшенные анимированные снежинки */
         .snowflake-bg {
             position: fixed;
             width: 100%;
@@ -31,34 +31,92 @@
             z-index: 0;
         }
 
-        .snowflake-bg::before,
-        .snowflake-bg::after {
+        /* Генерируем много снежинок через CSS */
+        .snowflake-bg i {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 20px;
+            height: 20px;
+            background: transparent;
+            animation: animateSnow 8s linear infinite;
+            bottom: -120px;
+        }
+
+        .snowflake-bg i::before {
             content: '❄️';
             position: absolute;
-            font-size: 20px;
-            opacity: 0.2;
-            animation: snowfall 15s linear infinite;
+            font-size: 1.5em;
+            filter: drop-shadow(0 0 5px #88ccff);
         }
 
-        .snowflake-bg::before {
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .snowflake-bg::after {
-            left: 30%;
-            animation-delay: 5s;
-        }
-
-        @keyframes snowfall {
+        @keyframes animateSnow {
             0% {
-                transform: translateY(-100px) rotate(0deg);
-                opacity: 0.2;
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.3;
             }
             100% {
-                transform: translateY(100vh) rotate(360deg);
+                transform: translateY(-1000px) rotate(360deg);
                 opacity: 0;
             }
+        }
+
+        /* Создаем 50 снежинок с разными позициями */
+        .snowflake-bg i:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 12s; }
+        .snowflake-bg i:nth-child(2) { left: 20%; animation-delay: 1s; animation-duration: 15s; }
+        .snowflake-bg i:nth-child(3) { left: 30%; animation-delay: 2s; animation-duration: 10s; }
+        .snowflake-bg i:nth-child(4) { left: 40%; animation-delay: 3s; animation-duration: 18s; }
+        .snowflake-bg i:nth-child(5) { left: 50%; animation-delay: 4s; animation-duration: 14s; }
+        .snowflake-bg i:nth-child(6) { left: 60%; animation-delay: 5s; animation-duration: 16s; }
+        .snowflake-bg i:nth-child(7) { left: 70%; animation-delay: 6s; animation-duration: 13s; }
+        .snowflake-bg i:nth-child(8) { left: 80%; animation-delay: 7s; animation-duration: 11s; }
+        .snowflake-bg i:nth-child(9) { left: 90%; animation-delay: 8s; animation-duration: 17s; }
+        .snowflake-bg i:nth-child(10) { left: 15%; animation-delay: 9s; animation-duration: 19s; }
+        .snowflake-bg i:nth-child(11) { left: 25%; animation-delay: 10s; animation-duration: 12s; }
+        .snowflake-bg i:nth-child(12) { left: 35%; animation-delay: 11s; animation-duration: 14s; }
+        .snowflake-bg i:nth-child(13) { left: 45%; animation-delay: 12s; animation-duration: 16s; }
+        .snowflake-bg i:nth-child(14) { left: 55%; animation-delay: 13s; animation-duration: 18s; }
+        .snowflake-bg i:nth-child(15) { left: 65%; animation-delay: 14s; animation-duration: 15s; }
+        .snowflake-bg i:nth-child(16) { left: 75%; animation-delay: 15s; animation-duration: 13s; }
+        .snowflake-bg i:nth-child(17) { left: 85%; animation-delay: 16s; animation-duration: 11s; }
+        .snowflake-bg i:nth-child(18) { left: 95%; animation-delay: 17s; animation-duration: 17s; }
+        .snowflake-bg i:nth-child(19) { left: 5%; animation-delay: 18s; animation-duration: 19s; }
+        .snowflake-bg i:nth-child(20) { left: 33%; animation-delay: 19s; animation-duration: 14s; }
+        .snowflake-bg i:nth-child(21) { left: 67%; animation-delay: 0s; animation-duration: 15s; }
+        .snowflake-bg i:nth-child(22) { left: 82%; animation-delay: 2s; animation-duration: 16s; }
+        .snowflake-bg i:nth-child(23) { left: 17%; animation-delay: 4s; animation-duration: 12s; }
+        .snowflake-bg i:nth-child(24) { left: 43%; animation-delay: 6s; animation-duration: 18s; }
+        .snowflake-bg i:nth-child(25) { left: 58%; animation-delay: 8s; animation-duration: 14s; }
+        .snowflake-bg i:nth-child(26) { left: 72%; animation-delay: 10s; animation-duration: 16s; }
+        .snowflake-bg i:nth-child(27) { left: 88%; animation-delay: 12s; animation-duration: 13s; }
+        .snowflake-bg i:nth-child(28) { left: 23%; animation-delay: 14s; animation-duration: 11s; }
+        .snowflake-bg i:nth-child(29) { left: 37%; animation-delay: 16s; animation-duration: 17s; }
+        .snowflake-bg i:nth-child(30) { left: 63%; animation-delay: 18s; animation-duration: 19s; }
+        .snowflake-bg i:nth-child(31) { left: 77%; animation-delay: 1s; animation-duration: 12s; }
+        .snowflake-bg i:nth-child(32) { left: 92%; animation-delay: 3s; animation-duration: 15s; }
+        .snowflake-bg i:nth-child(33) { left: 12%; animation-delay: 5s; animation-duration: 14s; }
+        .snowflake-bg i:nth-child(34) { left: 28%; animation-delay: 7s; animation-duration: 16s; }
+        .snowflake-bg i:nth-child(35) { left: 48%; animation-delay: 9s; animation-duration: 18s; }
+        .snowflake-bg i:nth-child(36) { left: 53%; animation-delay: 11s; animation-duration: 13s; }
+        .snowflake-bg i:nth-child(37) { left: 68%; animation-delay: 13s; animation-duration: 11s; }
+        .snowflake-bg i:nth-child(38) { left: 83%; animation-delay: 15s; animation-duration: 17s; }
+        .snowflake-bg i:nth-child(39) { left: 97%; animation-delay: 17s; animation-duration: 15s; }
+        .snowflake-bg i:nth-child(40) { left: 8%; animation-delay: 19s; animation-duration: 19s; }
+        .snowflake-bg i:nth-child(41) { left: 42%; animation-delay: 0s; animation-duration: 14s; }
+        .snowflake-bg i:nth-child(42) { left: 56%; animation-delay: 2s; animation-duration: 16s; }
+        .snowflake-bg i:nth-child(43) { left: 73%; animation-delay: 4s; animation-duration: 12s; }
+        .snowflake-bg i:nth-child(44) { left: 89%; animation-delay: 6s; animation-duration: 18s; }
+        .snowflake-bg i:nth-child(45) { left: 14%; animation-delay: 8s; animation-duration: 15s; }
+        .snowflake-bg i:nth-child(46) { left: 31%; animation-delay: 10s; animation-duration: 17s; }
+        .snowflake-bg i:nth-child(47) { left: 47%; animation-delay: 12s; animation-duration: 13s; }
+        .snowflake-bg i:nth-child(48) { left: 62%; animation-delay: 14s; animation-duration: 11s; }
+        .snowflake-bg i:nth-child(49) { left: 78%; animation-delay: 16s; animation-duration: 19s; }
+        .snowflake-bg i:nth-child(50) { left: 94%; animation-delay: 18s; animation-duration: 14s; }
+
+        /* Оптимизация производительности */
+        .snowflake-bg i {
+            will-change: transform, opacity;
+            transform: translateZ(0);
         }
 
         /* Ледяной эффект для фона */
@@ -86,7 +144,7 @@
             width: 100%;
             max-width: 400px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -94,9 +152,9 @@
 
         /* Ледяной куб без рамки */
         .ice-cube {
-            width: 100px;
-            height: 100px;
-            margin: 10px auto;
+            width: 80px;
+            height: 80px;
+            margin: 5px auto;
             position: relative;
             display: flex;
             align-items: center;
@@ -107,7 +165,7 @@
 
         .ice-cube::before {
             content: '🧊';
-            font-size: 80px;
+            font-size: 70px;
             line-height: 1;
             filter: drop-shadow(0 0 10px #00ffff);
             animation: iceGlow 3s ease-in-out infinite;
@@ -115,7 +173,7 @@
 
         @keyframes iceFloat {
             0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
         }
 
         @keyframes iceGlow {
@@ -125,23 +183,23 @@
 
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .header h1 {
-            font-size: 42px;
+            font-size: 38px;
             font-weight: 800;
             background: linear-gradient(135deg, #ffffff, #a0e0ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 0 30px rgba(100, 200, 255, 0.5);
             letter-spacing: 2px;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
 
         .header p {
             color: #88ccff;
-            font-size: 16px;
+            font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 3px;
             text-shadow: 0 0 10px rgba(100, 200, 255, 0.5);
@@ -149,13 +207,13 @@
 
         /* Ледяные карточки */
         .ice-card {
-            background: rgba(10, 30, 50, 0.7);
+            background: rgba(10, 30, 50, 0.8);
             backdrop-filter: blur(15px);
-            border-radius: 30px;
-            padding: 25px;
+            border-radius: 25px;
+            padding: 20px;
             border: 1px solid rgba(100, 200, 255, 0.3);
             box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 15px 30px rgba(0, 0, 0, 0.4),
                 0 0 0 1px rgba(100, 200, 255, 0.2) inset,
                 0 0 30px rgba(100, 200, 255, 0.2);
             position: relative;
@@ -180,22 +238,22 @@
 
         .tab-buttons {
             display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
+            gap: 8px;
+            margin-bottom: 20px;
             position: relative;
             z-index: 2;
         }
 
         .tab-btn {
             flex: 1;
-            padding: 15px;
+            padding: 12px;
             border: none;
-            border-radius: 20px;
-            font-size: 16px;
+            border-radius: 18px;
+            font-size: 15px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            background: rgba(30, 60, 90, 0.5);
+            background: rgba(30, 60, 90, 0.6);
             color: #88ccff;
             border: 1px solid rgba(100, 200, 255, 0.3);
             text-transform: uppercase;
@@ -209,38 +267,39 @@
             box-shadow: 0 0 20px rgba(100, 200, 255, 0.5);
         }
 
-        .form {
+        /* Страницы */
+        .page {
             display: none;
             position: relative;
             z-index: 2;
         }
 
-        .form.active {
+        .page.active {
             display: block;
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .input-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             color: #aaddff;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
         .input-group input {
             width: 100%;
-            padding: 15px;
+            padding: 12px 15px;
             border: 2px solid rgba(100, 200, 255, 0.3);
-            border-radius: 20px;
-            font-size: 16px;
+            border-radius: 18px;
+            font-size: 15px;
             transition: all 0.3s;
-            background: rgba(0, 20, 40, 0.7);
+            background: rgba(0, 20, 40, 0.8);
             color: white;
             backdrop-filter: blur(5px);
         }
@@ -249,23 +308,23 @@
             outline: none;
             border-color: #88ccff;
             box-shadow: 0 0 20px rgba(100, 200, 255, 0.5);
-            background: rgba(0, 30, 50, 0.8);
+            background: rgba(0, 30, 50, 0.9);
         }
 
         .input-group input::placeholder {
-            color: rgba(136, 204, 255, 0.5);
+            color: rgba(136, 204, 255, 0.4);
         }
 
         .btn {
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             border: none;
-            border-radius: 20px;
-            font-size: 16px;
+            border-radius: 18px;
+            font-size: 15px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             text-transform: uppercase;
             letter-spacing: 2px;
             position: relative;
@@ -301,78 +360,100 @@
         }
 
         .btn-secondary {
-            background: rgba(0, 30, 50, 0.5);
+            background: rgba(0, 30, 50, 0.6);
             color: #88ccff;
             border: 1px solid #88ccff;
         }
 
         .btn-secondary:hover {
-            background: rgba(0, 50, 80, 0.7);
+            background: rgba(0, 50, 80, 0.8);
             box-shadow: 0 0 20px rgba(100, 200, 255, 0.3);
         }
 
-        /* Эмодзи пикер */
+        /* Эмодзи пикер с прокруткой */
         .emoji-picker {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            max-height: 150px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        
+        .emoji-picker label {
+            display: block;
+            margin-bottom: 8px;
+            color: #aaddff;
+            font-weight: bold;
+            font-size: 13px;
+            text-transform: uppercase;
         }
         
         .emoji-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-top: 10px;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            padding: 3px;
         }
         
         .emoji-option {
-            font-size: 40px;
-            padding: 10px;
+            font-size: 30px;
+            padding: 8px;
             text-align: center;
-            background: rgba(0, 30, 50, 0.7);
-            border-radius: 20px;
+            background: rgba(0, 30, 50, 0.8);
+            border-radius: 15px;
             cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid rgba(100, 200, 255, 0.3);
+            transition: all 0.2s;
+            border: 2px solid rgba(100, 200, 255, 0.2);
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .emoji-option:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
             background: rgba(0, 50, 80, 0.9);
             border-color: #88ccff;
-            box-shadow: 0 0 20px #88ccff;
+            box-shadow: 0 0 15px #88ccff;
         }
         
         .emoji-option.selected {
             background: linear-gradient(135deg, #004466, #001a33);
             border-color: #88ccff;
-            box-shadow: 0 0 30px #88ccff;
+            box-shadow: 0 0 20px #88ccff;
         }
 
-        /* Экран разработки (отдельная карточка) */
-        .dev-screen {
-            margin-top: 20px;
-        }
-
-        .dev-screen.hidden {
-            display: none;
+        /* Страница разработки (ПОЛНОСТЬЮ ОТДЕЛЬНАЯ) */
+        #devPage {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .user-profile {
             display: flex;
             align-items: center;
             gap: 15px;
-            padding: 15px;
-            background: rgba(0, 30, 50, 0.7);
-            border-radius: 50px;
-            margin-bottom: 25px;
+            padding: 12px;
+            background: rgba(0, 30, 50, 0.8);
+            border-radius: 40px;
+            margin-bottom: 15px;
             border: 1px solid rgba(100, 200, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .user-profile:hover {
+            background: rgba(0, 40, 60, 0.9);
+            border-color: #88ccff;
+            box-shadow: 0 0 20px rgba(100, 200, 255, 0.3);
         }
 
         .profile-emoji {
-            font-size: 50px;
+            font-size: 40px;
             filter: drop-shadow(0 0 15px #88ccff);
-            background: rgba(0, 50, 80, 0.5);
+            background: rgba(0, 50, 80, 0.6);
             border-radius: 50%;
-            padding: 10px;
+            padding: 8px;
         }
 
         .profile-info {
@@ -382,18 +463,60 @@
         .profile-name {
             color: white;
             font-weight: bold;
-            font-size: 20px;
-            margin-bottom: 5px;
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        .profile-edit {
+            color: #88ccff;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        /* Модальное окно редактирования */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 350px;
+            background: rgba(10, 30, 50, 0.95);
+            border-radius: 30px;
+            padding: 25px;
+            border: 2px solid #88ccff;
+            box-shadow: 0 0 50px #88ccff;
+        }
+
+        .modal-content h3 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 22px;
         }
 
         .dev-content {
             text-align: center;
-            padding: 20px 0;
+            padding: 10px 0;
         }
 
         .big-snowflake {
-            font-size: 80px;
-            margin-bottom: 15px;
+            font-size: 70px;
+            margin-bottom: 10px;
             animation: snowflakeSpin 6s linear infinite;
             filter: drop-shadow(0 0 30px #88ccff);
         }
@@ -405,49 +528,49 @@
         }
 
         .dev-title {
-            font-size: 36px;
+            font-size: 32px;
             background: linear-gradient(135deg, #ffffff, #88ccff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             text-transform: uppercase;
         }
 
         .dev-subtitle {
             color: #88ccff;
-            font-size: 18px;
-            margin-bottom: 30px;
+            font-size: 16px;
+            margin-bottom: 20px;
             opacity: 0.8;
         }
 
         .games-preview {
             background: rgba(0, 40, 60, 0.5);
-            border-radius: 30px;
-            padding: 25px;
-            margin: 20px 0;
+            border-radius: 25px;
+            padding: 20px;
+            margin: 15px 0;
             border: 1px solid rgba(100, 200, 255, 0.3);
         }
 
         .games-preview h3 {
             color: #aaddff;
-            margin-bottom: 20px;
-            font-size: 20px;
+            margin-bottom: 15px;
+            font-size: 18px;
             letter-spacing: 2px;
         }
 
         .game-item {
             display: flex;
             align-items: center;
-            padding: 15px;
-            margin: 10px 0;
-            background: rgba(0, 20, 40, 0.7);
+            padding: 12px;
+            margin: 8px 0;
+            background: rgba(0, 20, 40, 0.8);
             border-radius: 15px;
             border: 1px solid rgba(100, 200, 255, 0.2);
         }
 
         .game-emoji {
-            font-size: 30px;
-            margin-right: 15px;
+            font-size: 28px;
+            margin-right: 12px;
             filter: drop-shadow(0 0 10px #88ccff);
         }
 
@@ -457,26 +580,26 @@
 
         .game-text h4 {
             color: white;
-            margin-bottom: 5px;
-            font-size: 18px;
+            margin-bottom: 3px;
+            font-size: 16px;
         }
 
         .game-text p {
             color: #88ccff;
-            font-size: 14px;
+            font-size: 13px;
             opacity: 0.8;
         }
 
         .footer-note {
-            margin: 30px 0 20px;
-            padding: 15px;
+            margin: 20px 0 15px;
+            padding: 12px;
             border-top: 1px solid rgba(100, 200, 255, 0.3);
             border-bottom: 1px solid rgba(100, 200, 255, 0.3);
         }
 
         .footer-note p {
             color: #88ccff;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 3px;
@@ -487,11 +610,11 @@
             background: none;
             border: 2px solid #88ccff;
             color: #88ccff;
-            padding: 12px 40px;
-            border-radius: 30px;
-            font-size: 16px;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 15px;
             cursor: pointer;
-            margin-top: 20px;
+            margin-top: 15px;
             transition: all 0.3s;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -506,7 +629,14 @@
     </style>
 </head>
 <body>
-    <div class="snowflake-bg"></div>
+    <!-- Фон со снежинками (50 штук) -->
+    <div class="snowflake-bg">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
     <div class="ice-overlay"></div>
     
     <div class="container">
@@ -517,8 +647,8 @@
             <p>Ледовая лудка</p>
         </div>
 
-        <!-- Главное меню (вход/регистрация) -->
-        <div id="mainMenu" class="ice-card">
+        <!-- СТРАНИЦА 1: Вход/Регистрация -->
+        <div id="authPage" class="ice-card page active">
             <div class="tab-buttons">
                 <button class="tab-btn active" onclick="switchTab('login')">❄️ Вход</button>
                 <button class="tab-btn" onclick="switchTab('register')">🧊 Регистрация</button>
@@ -553,7 +683,7 @@
                     <input type="password" id="regConfirm" placeholder="Повторите пароль">
                 </div>
                 
-                <!-- Выбор эмодзи -->
+                <!-- Эмодзи пикер с прокруткой -->
                 <div class="emoji-picker">
                     <label>❄️ Выбери аватар</label>
                     <div class="emoji-grid">
@@ -569,6 +699,12 @@
                         <div class="emoji-option" onclick="selectEmoji(this)">🐧</div>
                         <div class="emoji-option" onclick="selectEmoji(this)">🐻‍❄️</div>
                         <div class="emoji-option" onclick="selectEmoji(this)">🎄</div>
+                        <div class="emoji-option" onclick="selectEmoji(this)">🧋</div>
+                        <div class="emoji-option" onclick="selectEmoji(this)">🥶</div>
+                        <div class="emoji-option" onclick="selectEmoji(this)">⛄</div>
+                        <div class="emoji-option" onclick="selectEmoji(this)">🏂</div>
+                        <div class="emoji-option" onclick="selectEmoji(this)">🌊</div>
+                        <div class="emoji-option" onclick="selectEmoji(this)">💎</div>
                     </div>
                 </div>
                 
@@ -577,12 +713,14 @@
             </div>
         </div>
 
-        <!-- Страница разработки (ОТДЕЛЬНАЯ) -->
-        <div id="devScreen" class="ice-card dev-screen hidden">
-            <div class="user-profile" id="userProfile">
+        <!-- СТРАНИЦА 2: Разработка (ПОЛНОСТЬЮ ОТДЕЛЬНАЯ) -->
+        <div id="devPage" class="ice-card page">
+            <!-- Профиль (кликабельный) -->
+            <div class="user-profile" onclick="openEditModal()">
                 <span class="profile-emoji" id="profileEmoji">🧊</span>
                 <div class="profile-info">
                     <div class="profile-name" id="profileName"></div>
+                    <div class="profile-edit">👆 нажми чтобы изменить</div>
                 </div>
             </div>
 
@@ -620,7 +758,41 @@
                     <p>❄️ ЛЕДОВАЯ ЛУДКА ❄️</p>
                 </div>
 
-                <button class="back-btn" onclick="backToMenu()">❄️ ВЫЙТИ ❄️</button>
+                <button class="back-btn" onclick="logout()">❄️ ВЫЙТИ ❄️</button>
+            </div>
+        </div>
+
+        <!-- Модальное окно редактирования профиля -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <h3>❄️ Редактировать</h3>
+                <div class="input-group">
+                    <label>👤 Новое имя</label>
+                    <input type="text" id="editName" placeholder="Введите новое имя">
+                </div>
+                <div class="emoji-picker" style="max-height: 200px;">
+                    <label>❄️ Новый аватар</label>
+                    <div class="emoji-grid" style="grid-template-columns: repeat(4, 1fr);">
+                        <div class="emoji-option" onclick="selectEditEmoji(this)">🧊</div>
+                        <div class="emoji-option" onclick="selectEditEmoji(this)">❄️</div>
+                        <div class="emoji-option" onclick="selectEditEmoji(this)">⛄</div>
+                        <div class="emoji-option" onclick="selectEditEmoji(this)">🏔️</div>
+                        <div class="emoji-option" onclick="selectEditEmoji(this)">🌨️</div>
+                        <div class="emoji-option" onclick="selectEditEmoji(this)">⛷️</div>
+                        <div class="emoji-option" onclick="selectEditEmoji(this)">🎿</div>
+                        <div class="emoji-option" onclick="selectEditEmoji(this)">⛸️</div>
+                        <div class="emoji-option" onclick="selectEditEmoji(this)">🦭</div>
+                        <div class="emoji-option" onclick="selectEditEmoji(this)">🐧</div>
+                        <div class="emoji-option" onclick="selectEditEmoji(this)">🐻‍❄️</div>
+                        <div class="emoji-option" onclick="selectEditEmoji(this)">🎄</div>
+                        <div class="emoji-option" onclick="selectEditEmoji(this)">🧋</div>
+                        <div class="emoji-option" onclick="selectEditEmoji(this)">🥶</div>
+                        <div class="emoji-option" onclick="selectEditEmoji(this)">⛄</div>
+                        <div class="emoji-option" onclick="selectEditEmoji(this)">🏂</div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="saveProfile()">💾 Сохранить</button>
+                <button class="btn btn-secondary" onclick="closeEditModal()">❌ Отмена</button>
             </div>
         </div>
     </div>
@@ -631,18 +803,9 @@
 
         // База пользователей
         let users = JSON.parse(localStorage.getItem('frozenPepeUsers')) || {};
+        let currentUser = null;
         let selectedEmoji = '🧊';
-
-        // Выбор эмодзи
-        function selectEmoji(element) {
-            // Убираем выделение со всех
-            document.querySelectorAll('.emoji-option').forEach(el => {
-                el.classList.remove('selected');
-            });
-            // Выделяем выбранный
-            element.classList.add('selected');
-            selectedEmoji = element.textContent;
-        }
+        let selectedEditEmoji = '🧊';
 
         // Переключение табов
         function switchTab(tab) {
@@ -661,6 +824,24 @@
                 tabs[0].classList.remove('active');
                 tabs[1].classList.add('active');
             }
+        }
+
+        // Выбор эмодзи при регистрации
+        function selectEmoji(element) {
+            document.querySelectorAll('#registerForm .emoji-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            selectedEmoji = element.textContent;
+        }
+
+        // Выбор эмодзи при редактировании
+        function selectEditEmoji(element) {
+            document.querySelectorAll('#editModal .emoji-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            selectedEditEmoji = element.textContent;
         }
 
         // Регистрация
@@ -684,7 +865,6 @@
                 return;
             }
 
-            // Сохраняем пользователя
             users[username] = { 
                 password: password,
                 emoji: selectedEmoji
@@ -711,23 +891,24 @@
                 return;
             }
 
-            // Показываем экран разработки
-            showDevScreen(username, users[username].emoji);
+            currentUser = username;
+            showDevPage(username);
         }
 
-        // Показать экран разработки
-        function showDevScreen(username, emoji) {
-            document.getElementById('mainMenu').classList.add('hidden');
-            document.getElementById('devScreen').classList.remove('hidden');
+        // Показать страницу разработки
+        function showDevPage(username) {
+            document.getElementById('authPage').classList.remove('active');
+            document.getElementById('devPage').classList.add('active');
             
             document.getElementById('profileName').textContent = username;
-            document.getElementById('profileEmoji').textContent = emoji || '🧊';
+            document.getElementById('profileEmoji').textContent = users[username].emoji || '🧊';
         }
 
-        // Вернуться в меню
-        function backToMenu() {
-            document.getElementById('mainMenu').classList.remove('hidden');
-            document.getElementById('devScreen').classList.add('hidden');
+        // Выход
+        function logout() {
+            document.getElementById('devPage').classList.remove('active');
+            document.getElementById('authPage').classList.add('active');
+            currentUser = null;
             
             // Очищаем поля
             document.getElementById('loginUsername').value = '';
@@ -737,12 +918,78 @@
             document.getElementById('regConfirm').value = '';
         }
 
+        // Открыть модальное окно редактирования
+        function openEditModal() {
+            if (!currentUser) return;
+            
+            document.getElementById('editName').value = currentUser;
+            document.getElementById('editModal').classList.add('active');
+            
+            // Сбрасываем выделение эмодзи
+            selectedEditEmoji = users[currentUser].emoji;
+            document.querySelectorAll('#editModal .emoji-option').forEach(el => {
+                if (el.textContent === selectedEditEmoji) {
+                    el.classList.add('selected');
+                } else {
+                    el.classList.remove('selected');
+                }
+            });
+        }
+
+        // Закрыть модальное окно
+        function closeEditModal() {
+            document.getElementById('editModal').classList.remove('active');
+        }
+
+        // Сохранить изменения профиля
+        function saveProfile() {
+            const newName = document.getElementById('editName').value.trim();
+            
+            if (!newName) {
+                tg.showAlert('❄️ Введи имя!');
+                return;
+            }
+
+            // Если имя меняется и оно уже занято (кроме текущего пользователя)
+            if (newName !== currentUser && users[newName]) {
+                tg.showAlert('❄️ Это имя уже занято!');
+                return;
+            }
+
+            // Сохраняем старого пользователя
+            const userData = users[currentUser];
+            
+            // Если имя меняется
+            if (newName !== currentUser) {
+                // Удаляем старого пользователя
+                delete users[currentUser];
+                // Создаем нового с тем же паролем и новым эмодзи
+                users[newName] = {
+                    password: userData.password,
+                    emoji: selectedEditEmoji
+                };
+                currentUser = newName;
+            } else {
+                // Просто обновляем эмодзи
+                users[currentUser].emoji = selectedEditEmoji;
+            }
+            
+            localStorage.setItem('frozenPepeUsers', JSON.stringify(users));
+            
+            // Обновляем отображение
+            document.getElementById('profileName').textContent = currentUser;
+            document.getElementById('profileEmoji').textContent = selectedEditEmoji;
+            
+            closeEditModal();
+            tg.showAlert('✅ Профиль обновлен!');
+        }
+
         // При загрузке страницы
         window.onload = function() {
             tg.ready();
             
             // Выделяем первый эмодзи по умолчанию
-            const firstEmoji = document.querySelector('.emoji-option');
+            const firstEmoji = document.querySelector('#registerForm .emoji-option');
             if (firstEmoji) {
                 firstEmoji.classList.add('selected');
             }
