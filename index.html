@@ -96,7 +96,7 @@
         .ice-cube {
             width: 100px;
             height: 100px;
-            margin: 20px auto;
+            margin: 10px auto;
             position: relative;
             display: flex;
             align-items: center;
@@ -125,7 +125,7 @@
 
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .header h1 {
@@ -311,23 +311,89 @@
             box-shadow: 0 0 20px rgba(100, 200, 255, 0.3);
         }
 
-        /* Страница разработки */
-        .dev-screen {
+        /* Эмодзи пикер */
+        .emoji-picker {
+            margin-bottom: 20px;
+        }
+        
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .emoji-option {
+            font-size: 40px;
+            padding: 10px;
             text-align: center;
-            padding: 30px 20px;
+            background: rgba(0, 30, 50, 0.7);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid rgba(100, 200, 255, 0.3);
+        }
+        
+        .emoji-option:hover {
+            transform: scale(1.1);
+            background: rgba(0, 50, 80, 0.9);
+            border-color: #88ccff;
+            box-shadow: 0 0 20px #88ccff;
+        }
+        
+        .emoji-option.selected {
+            background: linear-gradient(135deg, #004466, #001a33);
+            border-color: #88ccff;
+            box-shadow: 0 0 30px #88ccff;
+        }
+
+        /* Экран разработки (отдельная карточка) */
+        .dev-screen {
+            margin-top: 20px;
         }
 
         .dev-screen.hidden {
             display: none;
         }
 
-        .dev-header {
-            margin-bottom: 30px;
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(0, 30, 50, 0.7);
+            border-radius: 50px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(100, 200, 255, 0.3);
+        }
+
+        .profile-emoji {
+            font-size: 50px;
+            filter: drop-shadow(0 0 15px #88ccff);
+            background: rgba(0, 50, 80, 0.5);
+            border-radius: 50%;
+            padding: 10px;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .dev-content {
+            text-align: center;
+            padding: 20px 0;
         }
 
         .big-snowflake {
             font-size: 80px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             animation: snowflakeSpin 6s linear infinite;
             filter: drop-shadow(0 0 30px #88ccff);
         }
@@ -366,6 +432,7 @@
             color: #aaddff;
             margin-bottom: 20px;
             font-size: 20px;
+            letter-spacing: 2px;
         }
 
         .game-item {
@@ -391,6 +458,7 @@
         .game-text h4 {
             color: white;
             margin-bottom: 5px;
+            font-size: 18px;
         }
 
         .game-text p {
@@ -400,9 +468,10 @@
         }
 
         .footer-note {
-            margin-top: 30px;
-            padding: 20px;
+            margin: 30px 0 20px;
+            padding: 15px;
             border-top: 1px solid rgba(100, 200, 255, 0.3);
+            border-bottom: 1px solid rgba(100, 200, 255, 0.3);
         }
 
         .footer-note p {
@@ -411,41 +480,7 @@
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 3px;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: rgba(0, 30, 50, 0.7);
-            border-radius: 50px;
-            margin-bottom: 25px;
-            border: 1px solid rgba(100, 200, 255, 0.3);
-        }
-
-        .profile-emoji {
-            font-size: 40px;
-            filter: drop-shadow(0 0 15px #88ccff);
-            background: rgba(0, 50, 80, 0.5);
-            border-radius: 50%;
-            padding: 5px;
-        }
-
-        .profile-info {
-            flex: 1;
-        }
-
-        .profile-name {
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        .profile-code {
-            color: #88ccff;
-            font-size: 14px;
-            font-family: monospace;
+            text-align: center;
         }
 
         .back-btn {
@@ -460,6 +495,7 @@
             transition: all 0.3s;
             text-transform: uppercase;
             letter-spacing: 2px;
+            width: 100%;
         }
 
         .back-btn:hover {
@@ -481,7 +517,7 @@
             <p>Ледовая лудка</p>
         </div>
 
-        <!-- Главное меню -->
+        <!-- Главное меню (вход/регистрация) -->
         <div id="mainMenu" class="ice-card">
             <div class="tab-buttons">
                 <button class="tab-btn active" onclick="switchTab('login')">❄️ Вход</button>
@@ -495,11 +531,11 @@
                     <input type="text" id="loginUsername" placeholder="Введите имя">
                 </div>
                 <div class="input-group">
-                    <label>🔑 Код доступа</label>
-                    <input type="password" id="loginCode" placeholder="Введите код">
+                    <label>🔑 Пароль</label>
+                    <input type="password" id="loginPassword" placeholder="Введите пароль">
                 </div>
-                <button class="btn btn-primary" onclick="handleLogin()">❄️ Войти в лудку</button>
-                <button class="btn btn-secondary" onclick="switchTab('register')">🧊 Нет кода?</button>
+                <button class="btn btn-primary" onclick="handleLogin()">❄️ Войти</button>
+                <button class="btn btn-secondary" onclick="switchTab('register')">🧊 Нет аккаунта?</button>
             </div>
 
             <!-- Форма регистрации -->
@@ -509,67 +545,83 @@
                     <input type="text" id="regUsername" placeholder="Придумайте имя">
                 </div>
                 <div class="input-group">
-                    <label>🔑 Твой код</label>
-                    <input type="text" id="regCode" readonly placeholder="Код сгенерируется">
+                    <label>🔑 Пароль</label>
+                    <input type="password" id="regPassword" placeholder="Придумайте пароль">
                 </div>
-                <button class="btn btn-primary" onclick="handleRegister()">🧊 Получить код</button>
-                <button class="btn btn-secondary" onclick="switchTab('login')">❄️ Есть код?</button>
+                <div class="input-group">
+                    <label>🔒 Подтверждение</label>
+                    <input type="password" id="regConfirm" placeholder="Повторите пароль">
+                </div>
+                
+                <!-- Выбор эмодзи -->
+                <div class="emoji-picker">
+                    <label>❄️ Выбери аватар</label>
+                    <div class="emoji-grid">
+                        <div class="emoji-option" onclick="selectEmoji(this)">🧊</div>
+                        <div class="emoji-option" onclick="selectEmoji(this)">❄️</div>
+                        <div class="emoji-option" onclick="selectEmoji(this)">⛄</div>
+                        <div class="emoji-option" onclick="selectEmoji(this)">🏔️</div>
+                        <div class="emoji-option" onclick="selectEmoji(this)">🌨️</div>
+                        <div class="emoji-option" onclick="selectEmoji(this)">⛷️</div>
+                        <div class="emoji-option" onclick="selectEmoji(this)">🎿</div>
+                        <div class="emoji-option" onclick="selectEmoji(this)">⛸️</div>
+                        <div class="emoji-option" onclick="selectEmoji(this)">🦭</div>
+                        <div class="emoji-option" onclick="selectEmoji(this)">🐧</div>
+                        <div class="emoji-option" onclick="selectEmoji(this)">🐻‍❄️</div>
+                        <div class="emoji-option" onclick="selectEmoji(this)">🎄</div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="handleRegister()">🧊 Зарегистрироваться</button>
+                <button class="btn btn-secondary" onclick="switchTab('login')">❄️ Уже есть аккаунт?</button>
             </div>
         </div>
 
-        <!-- Страница разработки -->
+        <!-- Страница разработки (ОТДЕЛЬНАЯ) -->
         <div id="devScreen" class="ice-card dev-screen hidden">
             <div class="user-profile" id="userProfile">
                 <span class="profile-emoji" id="profileEmoji">🧊</span>
                 <div class="profile-info">
                     <div class="profile-name" id="profileName"></div>
-                    <div class="profile-code" id="profileCode"></div>
                 </div>
             </div>
 
-            <div class="dev-header">
+            <div class="dev-content">
                 <div class="big-snowflake">❄️</div>
                 <h2 class="dev-title">ЗАМОРОЖЕНО</h2>
                 <div class="dev-subtitle">ледяная стройка ❄️</div>
-            </div>
 
-            <div class="games-preview">
-                <h3>СКОРО ЗДЕСЬ:</h3>
-                <div class="game-item">
-                    <span class="game-emoji">🎰</span>
-                    <div class="game-text">
-                        <h4>Ледяные слоты</h4>
-                        <p>Холодные вращения</p>
+                <div class="games-preview">
+                    <h3>СКОРО ЗДЕСЬ:</h3>
+                    <div class="game-item">
+                        <span class="game-emoji">🎰</span>
+                        <div class="game-text">
+                            <h4>Рулетки</h4>
+                            <p>Ледяное колесо фортуны</p>
+                        </div>
+                    </div>
+                    <div class="game-item">
+                        <span class="game-emoji">📦</span>
+                        <div class="game-text">
+                            <h4>Кейсы</h4>
+                            <p>Холодные контейнеры</p>
+                        </div>
+                    </div>
+                    <div class="game-item">
+                        <span class="game-emoji">🎟️</span>
+                        <div class="game-text">
+                            <h4>Лотереи</h4>
+                            <p>Морозный джекпот</p>
+                        </div>
                     </div>
                 </div>
-                <div class="game-item">
-                    <span class="game-emoji">🎲</span>
-                    <div class="game-text">
-                        <h4>Морозные кости</h4>
-                        <p>Брось ледышку</p>
-                    </div>
-                </div>
-                <div class="game-item">
-                    <span class="game-emoji">🃏</span>
-                    <div class="game-text">
-                        <h4>Студёные карты</h4>
-                        <p>21 очко в минус</p>
-                    </div>
-                </div>
-                <div class="game-item">
-                    <span class="game-emoji">🎯</span>
-                    <div class="game-text">
-                        <h4>Рулетка</h4>
-                        <p>Замёрзшее колесо</p>
-                    </div>
-                </div>
-            </div>
 
-            <div class="footer-note">
-                <p>❄️ ЛЕДОВАЯ ЛУДКА ❄️</p>
-            </div>
+                <div class="footer-note">
+                    <p>❄️ ЛЕДОВАЯ ЛУДКА ❄️</p>
+                </div>
 
-            <button class="back-btn" onclick="backToMenu()">❄️ НАЗАД ❄️</button>
+                <button class="back-btn" onclick="backToMenu()">❄️ ВЫЙТИ ❄️</button>
+            </div>
         </div>
     </div>
 
@@ -579,15 +631,17 @@
 
         // База пользователей
         let users = JSON.parse(localStorage.getItem('frozenPepeUsers')) || {};
+        let selectedEmoji = '🧊';
 
-        // Генерация случайного кода
-        function generateCode() {
-            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';
-            let code = '';
-            for (let i = 0; i < 6; i++) {
-                code += chars[Math.floor(Math.random() * chars.length)];
-            }
-            return code;
+        // Выбор эмодзи
+        function selectEmoji(element) {
+            // Убираем выделение со всех
+            document.querySelectorAll('.emoji-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            // Выделяем выбранный
+            element.classList.add('selected');
+            selectedEmoji = element.textContent;
         }
 
         // Переключение табов
@@ -604,7 +658,6 @@
             } else {
                 loginForm.classList.remove('active');
                 registerForm.classList.add('active');
-                registerForm.querySelector('#regCode').value = generateCode();
                 tabs[0].classList.remove('active');
                 tabs[1].classList.add('active');
             }
@@ -613,10 +666,16 @@
         // Регистрация
         function handleRegister() {
             const username = document.getElementById('regUsername').value.trim();
-            const code = document.getElementById('regCode').value;
+            const password = document.getElementById('regPassword').value;
+            const confirm = document.getElementById('regConfirm').value;
 
-            if (!username) {
-                tg.showAlert('❄️ Введи имя!');
+            if (!username || !password || !confirm) {
+                tg.showAlert('❄️ Заполни все поля!');
+                return;
+            }
+
+            if (password !== confirm) {
+                tg.showAlert('❄️ Пароли не совпадают!');
                 return;
             }
 
@@ -627,61 +686,41 @@
 
             // Сохраняем пользователя
             users[username] = { 
-                password: code,
-                emoji: getRandomIceEmoji()
+                password: password,
+                emoji: selectedEmoji
             };
             localStorage.setItem('frozenPepeUsers', JSON.stringify(users));
             
-            // Отправляем код в бота
-            tg.sendData(JSON.stringify({
-                action: 'register',
-                username: username,
-                code: code
-            }));
-            
-            tg.showAlert(`❄️ Твой код: ${code}\nСохрани его!`);
+            tg.showAlert('✅ Регистрация успешна!');
             switchTab('login');
             document.getElementById('loginUsername').value = username;
-            document.getElementById('loginCode').value = '';
         }
 
         // Вход
         function handleLogin() {
             const username = document.getElementById('loginUsername').value.trim();
-            const code = document.getElementById('loginCode').value;
+            const password = document.getElementById('loginPassword').value;
 
-            if (!username || !code) {
+            if (!username || !password) {
                 tg.showAlert('❄️ Заполни все поля!');
                 return;
             }
 
-            if (!users[username] || users[username].password !== code) {
-                tg.showAlert('❄️ Неверное имя или код!');
+            if (!users[username] || users[username].password !== password) {
+                tg.showAlert('❄️ Неверное имя или пароль!');
                 return;
             }
 
-            // Отправляем данные о входе в бота
-            tg.sendData(JSON.stringify({
-                action: 'login',
-                username: username
-            }));
-
-            showDevScreen(username, users[username].password, users[username].emoji);
-        }
-
-        // Случайный ледяной эмодзи
-        function getRandomIceEmoji() {
-            const emojis = ['🧊', '❄️', '🏔️', '⛷️', '🎿', '⛄'];
-            return emojis[Math.floor(Math.random() * emojis.length)];
+            // Показываем экран разработки
+            showDevScreen(username, users[username].emoji);
         }
 
         // Показать экран разработки
-        function showDevScreen(username, code, emoji) {
+        function showDevScreen(username, emoji) {
             document.getElementById('mainMenu').classList.add('hidden');
             document.getElementById('devScreen').classList.remove('hidden');
             
             document.getElementById('profileName').textContent = username;
-            document.getElementById('profileCode').textContent = `Код: ${code}`;
             document.getElementById('profileEmoji').textContent = emoji || '🧊';
         }
 
@@ -692,19 +731,20 @@
             
             // Очищаем поля
             document.getElementById('loginUsername').value = '';
-            document.getElementById('loginCode').value = '';
+            document.getElementById('loginPassword').value = '';
             document.getElementById('regUsername').value = '';
-            document.getElementById('regCode').value = '';
+            document.getElementById('regPassword').value = '';
+            document.getElementById('regConfirm').value = '';
         }
 
         // При загрузке страницы
         window.onload = function() {
-            // Показываем Telegram, что приложение готово
             tg.ready();
             
-            // Если есть данные от бота
-            if (tg.initDataUnsafe?.user) {
-                console.log('Telegram user:', tg.initDataUnsafe.user);
+            // Выделяем первый эмодзи по умолчанию
+            const firstEmoji = document.querySelector('.emoji-option');
+            if (firstEmoji) {
+                firstEmoji.classList.add('selected');
             }
         }
     </script>
