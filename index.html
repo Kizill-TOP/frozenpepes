@@ -2,751 +2,623 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FrozenPepe - Ледовая лудка</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FrozenPepe - Кейсы</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
+            background: linear-gradient(135deg, #0a1a2a 0%, #001524 100%);
             min-height: 100vh;
-            background: radial-gradient(circle at 10% 20%, rgba(0, 40, 60, 0.9), rgba(0, 10, 20, 0.95));
+            color: white;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* Анимированные снежинки на фоне */
-        .snowflake-bg {
+        /* Простые снежинки (немного, для атмосферы) */
+        .snowflake {
             position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 20px;
             pointer-events: none;
             z-index: 0;
-        }
-
-        .snowflake-bg::before,
-        .snowflake-bg::after {
-            content: '❄️';
-            position: absolute;
-            font-size: 20px;
-            opacity: 0.2;
-            animation: snowfall 15s linear infinite;
-        }
-
-        .snowflake-bg::before {
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .snowflake-bg::after {
-            left: 30%;
-            animation-delay: 5s;
+            animation: snowfall linear infinite;
         }
 
         @keyframes snowfall {
-            0% {
-                transform: translateY(-100px) rotate(0deg);
-                opacity: 0.2;
-            }
-            100% {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* Ледяной эффект для фона */
-        .ice-overlay {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, 
-                rgba(200, 230, 255, 0.1) 0%, 
-                rgba(150, 200, 255, 0.05) 50%, 
-                transparent 100%);
-            pointer-events: none;
-            z-index: 1;
-            animation: iceShimmer 8s ease-in-out infinite;
-        }
-
-        @keyframes iceShimmer {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.6; }
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 0.3; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
         }
 
         .container {
             position: relative;
-            z-index: 2;
+            z-index: 10;
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             margin: 0 auto;
-            padding: 20px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            background: rgba(0, 20, 35, 0.6);
+            backdrop-filter: blur(10px);
         }
 
-        /* Ледяной куб без рамки */
-        .ice-cube {
-            width: 100px;
-            height: 100px;
-            margin: 10px auto;
-            position: relative;
+        /* Шапка с профилем */
+        .header {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(0, 30, 50, 0.5);
+            border-bottom: 1px solid rgba(100, 200, 255, 0.2);
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #004466, #002233);
+            border: 2px solid #88ccff;
+            box-shadow: 0 0 15px rgba(100, 200, 255, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
-            filter: drop-shadow(0 0 20px rgba(100, 200, 255, 0.5));
-            animation: iceFloat 4s ease-in-out infinite;
+            font-size: 24px;
+            color: white;
         }
 
-        .ice-cube::before {
-            content: '🧊';
-            font-size: 80px;
-            line-height: 1;
-            filter: drop-shadow(0 0 10px #00ffff);
-            animation: iceGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes iceFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
-        }
-
-        @keyframes iceGlow {
-            0%, 100% { filter: drop-shadow(0 0 10px #00ffff); }
-            50% { filter: drop-shadow(0 0 25px #88ffff); }
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .header h1 {
-            font-size: 42px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffffff, #a0e0ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(100, 200, 255, 0.5);
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-        }
-
-        .header p {
-            color: #88ccff;
-            font-size: 16px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            text-shadow: 0 0 10px rgba(100, 200, 255, 0.5);
-        }
-
-        /* Ледяные карточки */
-        .ice-card {
-            background: rgba(10, 30, 50, 0.7);
-            backdrop-filter: blur(15px);
-            border-radius: 30px;
-            padding: 25px;
-            border: 1px solid rgba(100, 200, 255, 0.3);
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.4),
-                0 0 0 1px rgba(100, 200, 255, 0.2) inset,
-                0 0 30px rgba(100, 200, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .ice-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent 70%);
-            animation: iceRotate 20s linear infinite;
-        }
-
-        @keyframes iceRotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .tab-buttons {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .tab-btn {
+        .user-info {
             flex: 1;
-            padding: 15px;
-            border: none;
-            border-radius: 20px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: rgba(30, 60, 90, 0.5);
-            color: #88ccff;
-            border: 1px solid rgba(100, 200, 255, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        .tab-btn.active {
-            background: linear-gradient(135deg, #003366, #001122);
+        .user-name {
+            font-size: 18px;
+            font-weight: bold;
             color: white;
-            border-color: #88ccff;
-            box-shadow: 0 0 20px rgba(100, 200, 255, 0.5);
+            margin-bottom: 4px;
         }
 
-        .form {
-            display: none;
-            position: relative;
-            z-index: 2;
-        }
-
-        .form.active {
-            display: block;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #aaddff;
-            font-weight: bold;
+        .user-balance {
             font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            color: #88ccff;
         }
 
-        .input-group input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid rgba(100, 200, 255, 0.3);
-            border-radius: 20px;
-            font-size: 16px;
-            transition: all 0.3s;
-            background: rgba(0, 20, 40, 0.7);
-            color: white;
-            backdrop-filter: blur(5px);
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: #88ccff;
-            box-shadow: 0 0 20px rgba(100, 200, 255, 0.5);
-            background: rgba(0, 30, 50, 0.8);
-        }
-
-        .input-group input::placeholder {
-            color: rgba(136, 204, 255, 0.5);
-        }
-
-        .btn {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 20px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        /* Основной контент - контейнер для страниц */
+        .pages-container {
+            flex: 1;
             position: relative;
             overflow: hidden;
+            min-height: 500px;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #004466, #001a33);
-            color: white;
-            border: 1px solid #88ccff;
-            box-shadow: 0 0 20px rgba(100, 200, 255, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(100, 200, 255, 0.6);
-        }
-
-        .btn-primary::before {
-            content: '';
+        .page {
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 70%);
-            animation: btnShine 3s linear infinite;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.3s ease-out;
+            padding: 20px;
+            overflow-y: auto;
         }
 
-        @keyframes btnShine {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        /* Страницы по умолчанию */
+        #casesPage { transform: translateX(0); }
+        #shopPage { transform: translateX(100%); }
+        #statsPage { transform: translateX(100%); }
+        #settingsPage { transform: translateX(100%); }
+
+        /* Навигация */
+        .nav-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 5px;
+            background: rgba(0, 25, 40, 0.8);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(100, 200, 255, 0.2);
         }
 
-        .btn-secondary {
-            background: rgba(0, 30, 50, 0.5);
-            color: #88ccff;
-            border: 1px solid #88ccff;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(0, 50, 80, 0.7);
-            box-shadow: 0 0 20px rgba(100, 200, 255, 0.3);
-        }
-
-        /* Эмодзи пикер */
-        .emoji-picker {
-            margin-bottom: 20px;
-        }
-        
-        .emoji-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .emoji-option {
-            font-size: 40px;
-            padding: 10px;
-            text-align: center;
-            background: rgba(0, 30, 50, 0.7);
-            border-radius: 20px;
+        .nav-btn {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 0;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 12px;
             cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid rgba(100, 200, 255, 0.3);
-        }
-        
-        .emoji-option:hover {
-            transform: scale(1.1);
-            background: rgba(0, 50, 80, 0.9);
-            border-color: #88ccff;
-            box-shadow: 0 0 20px #88ccff;
-        }
-        
-        .emoji-option.selected {
-            background: linear-gradient(135deg, #004466, #001a33);
-            border-color: #88ccff;
-            box-shadow: 0 0 30px #88ccff;
+            transition: all 0.2s;
+            border-radius: 10px;
         }
 
-        /* Экран разработки (отдельная карточка) */
-        .dev-screen {
+        .nav-btn.active {
+            color: #88ccff;
+            text-shadow: 0 0 10px #88ccff;
+        }
+
+        .nav-btn span {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* Кейсы */
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
             margin-top: 20px;
         }
 
-        .dev-screen.hidden {
-            display: none;
+        .case-item {
+            background: rgba(0, 40, 60, 0.5);
+            border-radius: 20px;
+            padding: 20px 15px;
+            text-align: center;
+            border: 1px solid rgba(100, 200, 255, 0.2);
+            transition: all 0.2s;
         }
 
-        .user-profile {
+        .case-item:hover {
+            transform: translateY(-5px);
+            border-color: #88ccff;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .case-emoji {
+            font-size: 48px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 10px #88ccff);
+        }
+
+        .case-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .case-price {
+            color: #88ccff;
+            font-size: 14px;
+        }
+
+        .open-btn {
+            background: linear-gradient(135deg, #004466, #002233);
+            border: 1px solid #88ccff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin-top: 10px;
+            width: 100%;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .open-btn:hover {
+            background: #005588;
+            box-shadow: 0 0 15px #88ccff;
+        }
+
+        /* Магазин */
+        .shop-items {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .shop-item {
             display: flex;
             align-items: center;
             gap: 15px;
             padding: 15px;
-            background: rgba(0, 30, 50, 0.7);
-            border-radius: 50px;
-            margin-bottom: 25px;
-            border: 1px solid rgba(100, 200, 255, 0.3);
-        }
-
-        .profile-emoji {
-            font-size: 50px;
-            filter: drop-shadow(0 0 15px #88ccff);
-            background: rgba(0, 50, 80, 0.5);
-            border-radius: 50%;
-            padding: 10px;
-        }
-
-        .profile-info {
-            flex: 1;
-        }
-
-        .profile-name {
-            color: white;
-            font-weight: bold;
-            font-size: 20px;
-            margin-bottom: 5px;
-        }
-
-        .dev-content {
-            text-align: center;
-            padding: 20px 0;
-        }
-
-        .big-snowflake {
-            font-size: 80px;
-            margin-bottom: 15px;
-            animation: snowflakeSpin 6s linear infinite;
-            filter: drop-shadow(0 0 30px #88ccff);
-        }
-
-        @keyframes snowflakeSpin {
-            from { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.1); }
-            to { transform: rotate(360deg) scale(1); }
-        }
-
-        .dev-title {
-            font-size: 36px;
-            background: linear-gradient(135deg, #ffffff, #88ccff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        .dev-subtitle {
-            color: #88ccff;
-            font-size: 18px;
-            margin-bottom: 30px;
-            opacity: 0.8;
-        }
-
-        .games-preview {
-            background: rgba(0, 40, 60, 0.5);
-            border-radius: 30px;
-            padding: 25px;
-            margin: 20px 0;
-            border: 1px solid rgba(100, 200, 255, 0.3);
-        }
-
-        .games-preview h3 {
-            color: #aaddff;
-            margin-bottom: 20px;
-            font-size: 20px;
-            letter-spacing: 2px;
-        }
-
-        .game-item {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            margin: 10px 0;
-            background: rgba(0, 20, 40, 0.7);
+            background: rgba(0, 30, 50, 0.5);
             border-radius: 15px;
             border: 1px solid rgba(100, 200, 255, 0.2);
         }
 
-        .game-emoji {
-            font-size: 30px;
-            margin-right: 15px;
-            filter: drop-shadow(0 0 10px #88ccff);
-        }
-
-        .game-text {
-            text-align: left;
-        }
-
-        .game-text h4 {
-            color: white;
-            margin-bottom: 5px;
-            font-size: 18px;
-        }
-
-        .game-text p {
-            color: #88ccff;
-            font-size: 14px;
-            opacity: 0.8;
-        }
-
-        .footer-note {
-            margin: 30px 0 20px;
-            padding: 15px;
-            border-top: 1px solid rgba(100, 200, 255, 0.3);
-            border-bottom: 1px solid rgba(100, 200, 255, 0.3);
-        }
-
-        .footer-note p {
-            color: #88ccff;
-            font-size: 18px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 3px;
+        .shop-item-emoji {
+            font-size: 32px;
+            width: 50px;
             text-align: center;
         }
 
-        .back-btn {
-            background: none;
-            border: 2px solid #88ccff;
-            color: #88ccff;
-            padding: 12px 40px;
-            border-radius: 30px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            width: 100%;
+        .shop-item-info {
+            flex: 1;
         }
 
-        .back-btn:hover {
+        .shop-item-name {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .shop-item-price {
+            color: #88ccff;
+            font-size: 14px;
+        }
+
+        .buy-btn {
+            background: #004466;
+            border: 1px solid #88ccff;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* Статистика */
+        .stats-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .stat-card {
+            background: rgba(0, 30, 50, 0.5);
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px solid rgba(100, 200, 255, 0.2);
+        }
+
+        .stat-title {
+            color: #88ccff;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Настройки */
+        .settings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(0, 30, 50, 0.5);
+            border-radius: 15px;
+            border: 1px solid rgba(100, 200, 255, 0.2);
+        }
+
+        .toggle {
+            width: 50px;
+            height: 30px;
+            background: #003344;
+            border-radius: 30px;
+            position: relative;
+            cursor: pointer;
+            border: 1px solid #88ccff;
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 26px;
+            height: 26px;
             background: #88ccff;
-            color: #001a33;
-            box-shadow: 0 0 30px #88ccff;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: 0.2s;
+        }
+
+        .toggle.active::after {
+            left: 22px;
+        }
+
+        /* Топ игроков */
+        .top-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .top-player {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(0, 30, 50, 0.5);
+            border-radius: 15px;
+            border: 1px solid rgba(100, 200, 255, 0.2);
+        }
+
+        .top-rank {
+            width: 30px;
+            height: 30px;
+            background: #004466;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #88ccff;
+        }
+
+        .top-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #002233;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .top-info {
+            flex: 1;
+        }
+
+        .top-name {
+            font-weight: bold;
+        }
+
+        .top-score {
+            color: #88ccff;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
-    <div class="snowflake-bg"></div>
-    <div class="ice-overlay"></div>
-    
+    <!-- Несколько снежинок для атмосферы -->
+    <div class="snowflake" style="left: 10%; animation-duration: 15s;">❄️</div>
+    <div class="snowflake" style="left: 30%; animation-duration: 12s; font-size: 30px;">❄️</div>
+    <div class="snowflake" style="left: 60%; animation-duration: 18s;">❄️</div>
+    <div class="snowflake" style="left: 80%; animation-duration: 14s; font-size: 25px;">❄️</div>
+    <div class="snowflake" style="left: 45%; animation-duration: 20s;">❄️</div>
+
     <div class="container">
-        <div class="ice-cube"></div>
-        
+        <!-- Шапка с профилем -->
         <div class="header">
-            <h1>FrozenPepe</h1>
-            <p>Ледовая лудка</p>
-        </div>
-
-        <!-- Главное меню (вход/регистрация) -->
-        <div id="mainMenu" class="ice-card">
-            <div class="tab-buttons">
-                <button class="tab-btn active" onclick="switchTab('login')">❄️ Вход</button>
-                <button class="tab-btn" onclick="switchTab('register')">🧊 Регистрация</button>
-            </div>
-
-            <!-- Форма входа -->
-            <div id="loginForm" class="form active">
-                <div class="input-group">
-                    <label>👤 Имя</label>
-                    <input type="text" id="loginUsername" placeholder="Введите имя">
-                </div>
-                <div class="input-group">
-                    <label>🔑 Пароль</label>
-                    <input type="password" id="loginPassword" placeholder="Введите пароль">
-                </div>
-                <button class="btn btn-primary" onclick="handleLogin()">❄️ Войти</button>
-                <button class="btn btn-secondary" onclick="switchTab('register')">🧊 Нет аккаунта?</button>
-            </div>
-
-            <!-- Форма регистрации -->
-            <div id="registerForm" class="form">
-                <div class="input-group">
-                    <label>👤 Имя</label>
-                    <input type="text" id="regUsername" placeholder="Придумайте имя">
-                </div>
-                <div class="input-group">
-                    <label>🔑 Пароль</label>
-                    <input type="password" id="regPassword" placeholder="Придумайте пароль">
-                </div>
-                <div class="input-group">
-                    <label>🔒 Подтверждение</label>
-                    <input type="password" id="regConfirm" placeholder="Повторите пароль">
-                </div>
-                
-                <!-- Выбор эмодзи -->
-                <div class="emoji-picker">
-                    <label>❄️ Выбери аватар</label>
-                    <div class="emoji-grid">
-                        <div class="emoji-option" onclick="selectEmoji(this)">🧊</div>
-                        <div class="emoji-option" onclick="selectEmoji(this)">❄️</div>
-                        <div class="emoji-option" onclick="selectEmoji(this)">⛄</div>
-                        <div class="emoji-option" onclick="selectEmoji(this)">🏔️</div>
-                        <div class="emoji-option" onclick="selectEmoji(this)">🌨️</div>
-                        <div class="emoji-option" onclick="selectEmoji(this)">⛷️</div>
-                        <div class="emoji-option" onclick="selectEmoji(this)">🎿</div>
-                        <div class="emoji-option" onclick="selectEmoji(this)">⛸️</div>
-                        <div class="emoji-option" onclick="selectEmoji(this)">🦭</div>
-                        <div class="emoji-option" onclick="selectEmoji(this)">🐧</div>
-                        <div class="emoji-option" onclick="selectEmoji(this)">🐻‍❄️</div>
-                        <div class="emoji-option" onclick="selectEmoji(this)">🎄</div>
-                    </div>
-                </div>
-                
-                <button class="btn btn-primary" onclick="handleRegister()">🧊 Зарегистрироваться</button>
-                <button class="btn btn-secondary" onclick="switchTab('login')">❄️ Уже есть аккаунт?</button>
+            <div class="avatar" id="userAvatar">👤</div>
+            <div class="user-info">
+                <div class="user-name" id="userName">Загрузка...</div>
+                <div class="user-balance" id="userBalance">❄️ 1000 монет</div>
             </div>
         </div>
 
-        <!-- Страница разработки (ОТДЕЛЬНАЯ) -->
-        <div id="devScreen" class="ice-card dev-screen hidden">
-            <div class="user-profile" id="userProfile">
-                <span class="profile-emoji" id="profileEmoji">🧊</span>
-                <div class="profile-info">
-                    <div class="profile-name" id="profileName"></div>
+        <!-- Контейнер для страниц -->
+        <div class="pages-container">
+            <!-- Кейсы (главная) -->
+            <div id="casesPage" class="page">
+                <h2 style="margin-bottom: 10px;">❄️ Ледяные кейсы</h2>
+                <p style="color: #88ccff; margin-bottom: 20px;">Выбери кейс и испытай удачу!</p>
+                
+                <div class="cases-grid">
+                    <div class="case-item">
+                        <div class="case-emoji">🧊</div>
+                        <div class="case-name">Базовый</div>
+                        <div class="case-price">100 ❄️</div>
+                        <button class="open-btn" onclick="alert('Открытие кейса (в разработке)')">Открыть</button>
+                    </div>
+                    <div class="case-item">
+                        <div class="case-emoji">❄️</div>
+                        <div class="case-name">Ледяной</div>
+                        <div class="case-price">250 ❄️</div>
+                        <button class="open-btn" onclick="alert('Открытие кейса (в разработке)')">Открыть</button>
+                    </div>
+                    <div class="case-item">
+                        <div class="case-emoji">🏔️</div>
+                        <div class="case-name">Горный</div>
+                        <div class="case-price">500 ❄️</div>
+                        <button class="open-btn" onclick="alert('Открытие кейса (в разработке)')">Открыть</button>
+                    </div>
+                    <div class="case-item">
+                        <div class="case-emoji">👑</div>
+                        <div class="case-name">Королевский</div>
+                        <div class="case-price">1000 ❄️</div>
+                        <button class="open-btn" onclick="alert('Открытие кейса (в разработке)')">Открыть</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="dev-content">
-                <div class="big-snowflake">❄️</div>
-                <h2 class="dev-title">ЗАМОРОЖЕНО</h2>
-                <div class="dev-subtitle">ледяная стройка ❄️</div>
-
-                <div class="games-preview">
-                    <h3>СКОРО ЗДЕСЬ:</h3>
-                    <div class="game-item">
-                        <span class="game-emoji">🎰</span>
-                        <div class="game-text">
-                            <h4>Рулетки</h4>
-                            <p>Ледяное колесо фортуны</p>
+            <!-- Магазин -->
+            <div id="shopPage" class="page">
+                <h2 style="margin-bottom: 20px;">🛒 Магазин</h2>
+                <div class="shop-items">
+                    <div class="shop-item">
+                        <span class="shop-item-emoji">🧊</span>
+                        <div class="shop-item-info">
+                            <div class="shop-item-name">Ледяной скин</div>
+                            <div class="shop-item-price">500 ❄️</div>
                         </div>
+                        <button class="buy-btn" onclick="alert('Покупка (в разработке)')">Купить</button>
                     </div>
-                    <div class="game-item">
-                        <span class="game-emoji">📦</span>
-                        <div class="game-text">
-                            <h4>Кейсы</h4>
-                            <p>Холодные контейнеры</p>
+                    <div class="shop-item">
+                        <span class="shop-item-emoji">❄️</span>
+                        <div class="shop-item-info">
+                            <div class="shop-item-name">Снежный эффект</div>
+                            <div class="shop-item-price">300 ❄️</div>
                         </div>
-                    </div>
-                    <div class="game-item">
-                        <span class="game-emoji">🎟️</span>
-                        <div class="game-text">
-                            <h4>Лотереи</h4>
-                            <p>Морозный джекпот</p>
-                        </div>
+                        <button class="buy-btn" onclick="alert('Покупка (в разработке)')">Купить</button>
                     </div>
                 </div>
-
-                <div class="footer-note">
-                    <p>❄️ ЛЕДОВАЯ ЛУДКА ❄️</p>
-                </div>
-
-                <button class="back-btn" onclick="backToMenu()">❄️ ВЫЙТИ ❄️</button>
             </div>
+
+            <!-- Статистика -->
+            <div id="statsPage" class="page">
+                <h2 style="margin-bottom: 20px;">📊 Статистика</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-title">Открыто кейсов</div>
+                        <div class="stat-value">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Выиграно монет</div>
+                        <div class="stat-value">0 ❄️</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Лучший предмет</div>
+                        <div class="stat-value">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Топ (временно в статистике или отдельно) -->
+            <div id="topPage" class="page">
+                <h2 style="margin-bottom: 20px;">🏆 Топ игроков</h2>
+                <div class="top-list">
+                    <div class="top-player">
+                        <div class="top-rank">1</div>
+                        <div class="top-avatar">👑</div>
+                        <div class="top-info">
+                            <div class="top-name">FrozenKing</div>
+                            <div class="top-score">10000 ❄️</div>
+                        </div>
+                    </div>
+                    <div class="top-player">
+                        <div class="top-rank">2</div>
+                        <div class="top-avatar">🧊</div>
+                        <div class="top-info">
+                            <div class="top-name">IceQueen</div>
+                            <div class="top-score">8500 ❄️</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Настройки -->
+            <div id="settingsPage" class="page">
+                <h2 style="margin-bottom: 20px;">⚙️ Настройки</h2>
+                <div class="settings-list">
+                    <div class="setting-item">
+                        <span>Уведомления</span>
+                        <div class="toggle" onclick="this.classList.toggle('active')"></div>
+                    </div>
+                    <div class="setting-item">
+                        <span>Звук</span>
+                        <div class="toggle" onclick="this.classList.toggle('active')"></div>
+                    </div>
+                    <div class="setting-item">
+                        <span>Темная тема</span>
+                        <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Навигация -->
+        <div class="nav-bar">
+            <button class="nav-btn active" onclick="navigateTo('cases')">
+                <span>📦</span>
+                <span>Кейсы</span>
+            </button>
+            <button class="nav-btn" onclick="navigateTo('shop')">
+                <span>🛒</span>
+                <span>Магазин</span>
+            </button>
+            <button class="nav-btn" onclick="navigateTo('stats')">
+                <span>📊</span>
+                <span>Статистика</span>
+            </button>
+            <button class="nav-btn" onclick="navigateTo('top')">
+                <span>🏆</span>
+                <span>Топ</span>
+            </button>
+            <button class="nav-btn" onclick="navigateTo('settings')">
+                <span>⚙️</span>
+                <span>Настройки</span>
+            </button>
         </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
+        tg.ready();
 
-        // База пользователей
-        let users = JSON.parse(localStorage.getItem('frozenPepeUsers')) || {};
-        let selectedEmoji = '🧊';
-
-        // Выбор эмодзи
-        function selectEmoji(element) {
-            // Убираем выделение со всех
-            document.querySelectorAll('.emoji-option').forEach(el => {
-                el.classList.remove('selected');
-            });
-            // Выделяем выбранный
-            element.classList.add('selected');
-            selectedEmoji = element.textContent;
-        }
-
-        // Переключение табов
-        function switchTab(tab) {
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            const tabs = document.querySelectorAll('.tab-btn');
-
-            if (tab === 'login') {
-                loginForm.classList.add('active');
-                registerForm.classList.remove('active');
-                tabs[0].classList.add('active');
-                tabs[1].classList.remove('active');
+        // Получаем данные пользователя Telegram
+        const user = tg.initDataUnsafe?.user;
+        
+        // Элементы для профиля
+        const userNameEl = document.getElementById('userName');
+        const userAvatarEl = document.getElementById('userAvatar');
+        
+        if (user) {
+            // Ставим имя из Telegram
+            userNameEl.textContent = user.first_name + (user.last_name ? ' ' + user.last_name : '');
+            
+            // Если есть фото профиля в Telegram
+            if (user.photo_url) {
+                // Можно подгрузить фото, но пока оставим эмодзи
+                userAvatarEl.innerHTML = `<img src="${user.photo_url}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
             } else {
-                loginForm.classList.remove('active');
-                registerForm.classList.add('active');
-                tabs[0].classList.remove('active');
-                tabs[1].classList.add('active');
+                // Если нет фото, ставим первую букву имени
+                userAvatarEl.textContent = user.first_name.charAt(0).toUpperCase();
             }
+        } else {
+            userNameEl.textContent = 'Гость';
         }
 
-        // Регистрация
-        function handleRegister() {
-            const username = document.getElementById('regUsername').value.trim();
-            const password = document.getElementById('regPassword').value;
-            const confirm = document.getElementById('regConfirm').value;
+        // Навигация
+        let currentPage = 'cases';
+        const pages = {
+            cases: document.getElementById('casesPage'),
+            shop: document.getElementById('shopPage'),
+            stats: document.getElementById('statsPage'),
+            top: document.getElementById('topPage'),
+            settings: document.getElementById('settingsPage')
+        };
 
-            if (!username || !password || !confirm) {
-                tg.showAlert('❄️ Заполни все поля!');
-                return;
-            }
+        function navigateTo(page) {
+            if (page === currentPage) return;
 
-            if (password !== confirm) {
-                tg.showAlert('❄️ Пароли не совпадают!');
-                return;
-            }
+            // Определяем направление анимации
+            const pageOrder = ['cases', 'shop', 'stats', 'top', 'settings'];
+            const currentIndex = pageOrder.indexOf(currentPage);
+            const newIndex = pageOrder.indexOf(page);
+            const direction = newIndex > currentIndex ? 1 : -1;
 
-            if (users[username]) {
-                tg.showAlert('❄️ Имя уже занято!');
-                return;
-            }
+            // Прячем все страницы
+            Object.values(pages).forEach(p => {
+                p.style.transform = `translateX(${direction * 100}%)`;
+            });
 
-            // Сохраняем пользователя
-            users[username] = { 
-                password: password,
-                emoji: selectedEmoji
-            };
-            localStorage.setItem('frozenPepeUsers', JSON.stringify(users));
-            
-            tg.showAlert('✅ Регистрация успешна!');
-            switchTab('login');
-            document.getElementById('loginUsername').value = username;
+            // Показываем новую страницу
+            setTimeout(() => {
+                Object.values(pages).forEach(p => {
+                    p.style.transform = 'translateX(100%)';
+                });
+                pages[page].style.transform = 'translateX(0)';
+            }, 50);
+
+            // Обновляем активную кнопку
+            document.querySelectorAll('.nav-btn').forEach((btn, index) => {
+                if (pageOrder[index] === page) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            currentPage = page;
         }
 
-        // Вход
-        function handleLogin() {
-            const username = document.getElementById('loginUsername').value.trim();
-            const password = document.getElementById('loginPassword').value;
-
-            if (!username || !password) {
-                tg.showAlert('❄️ Заполни все поля!');
-                return;
+        // Инициализация - показываем кейсы
+        Object.values(pages).forEach(p => {
+            if (p.id !== 'casesPage') {
+                p.style.transform = 'translateX(100%)';
             }
+        });
 
-            if (!users[username] || users[username].password !== password) {
-                tg.showAlert('❄️ Неверное имя или пароль!');
-                return;
-            }
-
-            // Показываем экран разработки
-            showDevScreen(username, users[username].emoji);
-        }
-
-        // Показать экран разработки
-        function showDevScreen(username, emoji) {
-            document.getElementById('mainMenu').classList.add('hidden');
-            document.getElementById('devScreen').classList.remove('hidden');
-            
-            document.getElementById('profileName').textContent = username;
-            document.getElementById('profileEmoji').textContent = emoji || '🧊';
-        }
-
-        // Вернуться в меню
-        function backToMenu() {
-            document.getElementById('mainMenu').classList.remove('hidden');
-            document.getElementById('devScreen').classList.add('hidden');
-            
-            // Очищаем поля
-            document.getElementById('loginUsername').value = '';
-            document.getElementById('loginPassword').value = '';
-            document.getElementById('regUsername').value = '';
-            document.getElementById('regPassword').value = '';
-            document.getElementById('regConfirm').value = '';
-        }
-
-        // При загрузке страницы
-        window.onload = function() {
-            tg.ready();
-            
-            // Выделяем первый эмодзи по умолчанию
-            const firstEmoji = document.querySelector('.emoji-option');
-            if (firstEmoji) {
-                firstEmoji.classList.add('selected');
-            }
-        }
+        // Для демо - баланс
+        let balance = 1000;
+        document.getElementById('userBalance').textContent = `❄️ ${balance} монет`;
     </script>
 </body>
 </html>
