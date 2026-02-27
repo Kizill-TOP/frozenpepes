@@ -21,7 +21,6 @@
             overflow-x: hidden;
         }
 
-        /* Снежинки */
         .snowflake {
             position: fixed;
             color: rgba(255, 255, 255, 0.15);
@@ -119,36 +118,62 @@
             overflow-y: auto;
         }
 
-        /* Заголовки страниц - мелкие */
+        /* Заголовки */
         .page h2 {
             font-size: 18px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             color: #88ccff;
             text-transform: uppercase;
             letter-spacing: 1px;
+            text-align: center;
         }
 
         .page h3 {
             font-size: 16px;
-            margin-bottom: 10px;
+            margin: 15px 0 10px;
             color: white;
         }
 
-        /* Кейсы - по центру */
+        /* Кейсы - два в ряд */
         .cases-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 15px 0;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 10px 0;
+        }
+
+        .cases-grid.best {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid rgba(255, 215, 0, 0.3);
+            position: relative;
+        }
+
+        .cases-grid.best::before {
+            content: "🏆 ЛУЧШИЕ";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #001a2a;
+            padding: 0 15px;
+            color: #ffd700;
+            font-size: 14px;
+            font-weight: bold;
         }
 
         .case-item {
             background: rgba(0, 40, 60, 0.6);
             border-radius: 15px;
-            padding: 12px 8px;
+            padding: 15px 10px;
             text-align: center;
             border: 1px solid rgba(100, 200, 255, 0.2);
             transition: all 0.2s;
+        }
+
+        .case-item.best {
+            border-color: #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
         }
 
         .case-item:hover {
@@ -158,30 +183,30 @@
         }
 
         .case-emoji {
-            font-size: 32px;
-            margin-bottom: 5px;
+            font-size: 40px;
+            margin-bottom: 8px;
         }
 
         .case-name {
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
         }
 
         .case-price {
             color: #88ccff;
-            font-size: 11px;
-            margin-bottom: 8px;
+            font-size: 13px;
+            margin-bottom: 10px;
         }
 
         .open-btn {
             background: linear-gradient(135deg, #004466, #002233);
             border: 1px solid #88ccff;
             color: white;
-            padding: 6px 0;
-            border-radius: 12px;
+            padding: 8px 0;
+            border-radius: 20px;
             width: 100%;
-            font-size: 11px;
+            font-size: 12px;
             cursor: pointer;
             transition: all 0.2s;
         }
@@ -191,7 +216,7 @@
             box-shadow: 0 0 10px #88ccff;
         }
 
-        /* Статистика с кнопкой инвентаря */
+        /* Статистика */
         .stats-grid {
             display: flex;
             flex-direction: column;
@@ -282,18 +307,49 @@
             cursor: pointer;
         }
 
-        /* Магазин */
-        .shop-section {
+        /* Магазин - промокоды */
+        .promo-section {
             margin-bottom: 20px;
         }
 
-        .shop-items {
+        .promo-input-group {
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
-        .shop-item {
+        .promo-input {
+            flex: 1;
+            padding: 12px 15px;
+            background: rgba(0, 30, 50, 0.8);
+            border: 2px solid rgba(100, 200, 255, 0.3);
+            border-radius: 20px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .promo-input:focus {
+            outline: none;
+            border-color: #88ccff;
+        }
+
+        .promo-btn {
+            background: linear-gradient(135deg, #004466, #002233);
+            border: 2px solid #88ccff;
+            color: white;
+            padding: 0 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .promo-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .promo-item {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -303,28 +359,28 @@
             border: 1px solid rgba(100, 200, 255, 0.2);
         }
 
-        .shop-item-emoji {
-            font-size: 28px;
-            width: 45px;
-            text-align: center;
-        }
-
-        .shop-item-info {
-            flex: 1;
-        }
-
-        .shop-item-name {
+        .promo-code {
+            font-family: monospace;
+            font-size: 16px;
             font-weight: bold;
-            font-size: 14px;
-            margin-bottom: 2px;
+            color: #ffd700;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px 8px;
+            border-radius: 8px;
         }
 
-        .shop-item-price {
+        .promo-reward {
+            flex: 1;
             color: #88ccff;
-            font-size: 12px;
+            font-size: 14px;
         }
 
-        .buy-btn {
+        .promo-reward span {
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .activate-btn {
             background: #004466;
             border: 1px solid #88ccff;
             color: white;
@@ -334,35 +390,12 @@
             cursor: pointer;
         }
 
-        .stars-shop {
-            background: rgba(0, 30, 50, 0.8);
-            border-radius: 15px;
-            padding: 15px;
-            border: 2px solid #ffd700;
-            margin-top: 15px;
+        .activate-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
         }
 
-        .stars-shop h4 {
-            color: #ffd700;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .stars-rate {
-            font-size: 13px;
-            color: white;
-            margin-bottom: 10px;
-        }
-
-        .dev-badge {
-            background: rgba(255, 215, 0, 0.2);
-            border-radius: 8px;
-            padding: 5px 10px;
-            font-size: 11px;
-            color: #ffd700;
-        }
-
-        /* Топ игроков */
+        /* Топ */
         .top-list {
             display: flex;
             flex-direction: column;
@@ -555,23 +588,36 @@
             <!-- Кейсы (главная) -->
             <div id="casesPage" class="page">
                 <h2>❄️ ЛЕДЯНЫЕ КЕЙСЫ</h2>
-                <div class="cases-grid" id="casesGrid"></div>
+                
+                <!-- Обычные кейсы (первые 8) -->
+                <div class="cases-grid" id="regularCases"></div>
+                
+                <!-- Лучшие кейсы (последние 4) -->
+                <div class="cases-grid best" id="bestCases"></div>
             </div>
 
-            <!-- Магазин -->
+            <!-- Магазин (ПРОМОКОДЫ) -->
             <div id="shopPage" class="page">
-                <h2>🛒 МАГАЗИН</h2>
+                <h2>🎟️ ПРОМОКОДЫ</h2>
                 
-                <div class="shop-section">
-                    <h3>❄️ За снежинки</h3>
-                    <div class="shop-items" id="snowShop"></div>
+                <div class="promo-section">
+                    <div class="promo-input-group">
+                        <input type="text" class="promo-input" id="promoCode" placeholder="Введи промокод">
+                        <button class="promo-btn" onclick="activatePromo()">Активировать</button>
+                    </div>
+
+                    <h3>🔥 ДОСТУПНЫЕ ПРОМОКОДЫ</h3>
+                    <div class="promo-list" id="promoList"></div>
                 </div>
 
-                <div class="stars-shop">
-                    <h4>⭐ ЗА ЗВЕЗДЫ (Telegram Stars)</h4>
-                    <div class="stars-rate">Курс: 1 ⭐ = 10 ❄️</div>
-                    <div class="shop-items" id="starsShop"></div>
-                    <div class="dev-badge">✨ В разработке</div>
+                <div class="stars-shop" style="margin-top: 20px; padding: 15px; background: rgba(0,30,50,0.6); border-radius: 15px; border: 1px solid #ffd700;">
+                    <h4 style="color: #ffd700; margin-bottom: 10px;">⭐ ЗВЕЗДЫ TELEGRAM</h4>
+                    <p style="font-size: 13px; margin-bottom: 10px;">Курс: 1 ⭐ = 10 ❄️</p>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="promo-btn" style="flex: 1;" onclick="buyWithStars(100, 10)">100❄️ = 10⭐</button>
+                        <button class="promo-btn" style="flex: 1;" onclick="buyWithStars(1000, 100)">1000❄️ = 100⭐</button>
+                    </div>
+                    <div style="margin-top: 10px; color: #ffd700; font-size: 11px;">✨ В разработке</div>
                 </div>
             </div>
 
@@ -638,8 +684,8 @@
                 <span>Кейсы</span>
             </button>
             <button class="nav-btn" onclick="navigateTo('shop')">
-                <span>🛒</span>
-                <span>Магазин</span>
+                <span>🎟️</span>
+                <span>Промокоды</span>
             </button>
             <button class="nav-btn" onclick="navigateTo('stats')">
                 <span>📊</span>
@@ -662,8 +708,8 @@
             <h3 style="text-align: center; margin-bottom: 15px;">❄️ Продать предмет?</h3>
             <p style="text-align: center; margin-bottom: 20px;" id="sellItemInfo"></p>
             <div style="display: flex; gap: 10px;">
-                <button class="btn btn-primary" style="flex: 1;" onclick="confirmSell()">Продать</button>
-                <button class="btn btn-secondary" style="flex: 1;" onclick="closeSellModal()">Отмена</button>
+                <button class="promo-btn" style="flex: 1;" onclick="confirmSell()">Продать</button>
+                <button class="promo-btn" style="flex: 1; background: transparent;" onclick="closeSellModal()">Отмена</button>
             </div>
         </div>
     </div>
@@ -684,8 +730,18 @@
             casesOpened: 0,
             totalWon: 0,
             itemsSold: 0,
-            inventory: []
+            inventory: [],
+            usedPromos: []
         };
+
+        // База промокодов
+        const promoCodes = [
+            { code: 'FROZEN100', reward: 100, desc: '100 ❄️' },
+            { code: 'ICEPEPE', reward: 250, desc: '250 ❄️' },
+            { code: 'WELCOME', reward: 50, desc: '50 ❄️' },
+            { code: 'CRYSTAL', reward: 500, desc: '500 ❄️' },
+            { code: 'SNOWBALL', reward: 150, desc: '150 ❄️' }
+        ];
 
         // Загрузка состояния
         function loadState() {
@@ -711,17 +767,21 @@
             
             updateInventory();
             updateCases();
-            updateShop();
+            updatePromoList();
         }
 
-        // Создание 12 кейсов
+        // Обновление кейсов
         function updateCases() {
-            const casesGrid = document.getElementById('casesGrid');
-            let html = '';
+            const regularCases = document.getElementById('regularCases');
+            const bestCases = document.getElementById('bestCases');
             
-            for (let i = 1; i <= 12; i++) {
+            let regularHtml = '';
+            let bestHtml = '';
+            
+            // Первые 8 кейсов (обычные)
+            for (let i = 1; i <= 8; i++) {
                 const price = i * 50;
-                html += `
+                regularHtml += `
                     <div class="case-item">
                         <div class="case-emoji">📦</div>
                         <div class="case-name">Кейс ${i}</div>
@@ -731,7 +791,21 @@
                 `;
             }
             
-            casesGrid.innerHTML = html;
+            // Последние 4 кейса (лучшие)
+            for (let i = 9; i <= 12; i++) {
+                const price = i * 50;
+                bestHtml += `
+                    <div class="case-item best">
+                        <div class="case-emoji">👑</div>
+                        <div class="case-name">Кейс ${i}</div>
+                        <div class="case-price">${price} ❄️</div>
+                        <button class="open-btn" onclick="openCase(${i}, ${price})">Открыть</button>
+                    </div>
+                `;
+            }
+            
+            regularCases.innerHTML = regularHtml;
+            bestCases.innerHTML = bestHtml;
         }
 
         // Открытие кейса
@@ -741,16 +815,13 @@
                 return;
             }
 
-            // Вычитаем цену
             gameState.snowflakes -= price;
             
-            // Генерируем случайный предмет
             const items = ['🧊', '❄️', '⛄', '🏔️', '💎', '👑', '🎮', '🎲', '🎯', '🎰', '🌟', '✨'];
             const randomItem = items[Math.floor(Math.random() * items.length)];
             const itemName = `Предмет ${Math.floor(Math.random() * 100)}`;
-            const itemValue = Math.floor(price * 0.7); // 70% от цены кейса
+            const itemValue = Math.floor(price * 0.7);
             
-            // Добавляем в инвентарь
             gameState.inventory.push({
                 id: Date.now() + Math.random(),
                 emoji: randomItem,
@@ -758,7 +829,6 @@
                 value: itemValue
             });
             
-            // Обновляем статистику
             gameState.casesOpened++;
             gameState.totalWon += itemValue;
             
@@ -766,6 +836,76 @@
             updateUI();
             
             tg.showAlert(`🎉 Ты выиграл: ${randomItem} (стоимость ${itemValue} ❄️)`);
+        }
+
+        // Обновление списка промокодов
+        function updatePromoList() {
+            const promoList = document.getElementById('promoList');
+            let html = '';
+            
+            promoCodes.forEach(promo => {
+                const isUsed = gameState.usedPromos && gameState.usedPromos.includes(promo.code);
+                html += `
+                    <div class="promo-item">
+                        <div class="promo-code">${promo.code}</div>
+                        <div class="promo-reward">+<span>${promo.reward}</span> ❄️</div>
+                        <button class="activate-btn" onclick="usePromo('${promo.code}', ${promo.reward})" ${isUsed ? 'disabled' : ''}>
+                            ${isUsed ? 'Использован' : 'Активировать'}
+                        </button>
+                    </div>
+                `;
+            });
+            
+            promoList.innerHTML = html;
+        }
+
+        // Активация промокода
+        function usePromo(code, reward) {
+            if (!gameState.usedPromos) gameState.usedPromos = [];
+            
+            if (gameState.usedPromos.includes(code)) {
+                tg.showAlert('❄️ Промокод уже использован!');
+                return;
+            }
+            
+            gameState.snowflakes += reward;
+            gameState.usedPromos.push(code);
+            
+            saveState();
+            updateUI();
+            
+            tg.showAlert(`✅ Промокод активирован! +${reward} ❄️`);
+        }
+
+        // Ручной ввод промокода
+        function activatePromo() {
+            const input = document.getElementById('promoCode');
+            const code = input.value.trim().toUpperCase();
+            
+            if (!code) {
+                tg.showAlert('❄️ Введи промокод!');
+                return;
+            }
+            
+            const promo = promoCodes.find(p => p.code === code);
+            
+            if (!promo) {
+                tg.showAlert('❄️ Неверный промокод!');
+                return;
+            }
+            
+            usePromo(promo.code, promo.reward);
+            input.value = '';
+        }
+
+        // Покупка за звезды
+        function buyWithStars(snowAmount, starCost) {
+            if (gameState.stars < starCost) {
+                tg.showAlert('⭐ Недостаточно звезд!');
+                return;
+            }
+            
+            tg.showAlert('✨ Покупка за звезды пока в разработке');
         }
 
         // Обновление инвентаря
@@ -790,79 +930,6 @@
             });
             
             inventoryGrid.innerHTML = html;
-        }
-
-        // Обновление магазина
-        function updateShop() {
-            const snowShop = document.getElementById('snowShop');
-            snowShop.innerHTML = `
-                <div class="shop-item">
-                    <span class="shop-item-emoji">🧊</span>
-                    <div class="shop-item-info">
-                        <div class="shop-item-name">Ледяной скин</div>
-                        <div class="shop-item-price">500 ❄️</div>
-                    </div>
-                    <button class="buy-btn" onclick="buyItem('skin', 500)">Купить</button>
-                </div>
-                <div class="shop-item">
-                    <span class="shop-item-emoji">❄️</span>
-                    <div class="shop-item-info">
-                        <div class="shop-item-name">Снежный эффект</div>
-                        <div class="shop-item-price">300 ❄️</div>
-                    </div>
-                    <button class="buy-btn" onclick="buyItem('effect', 300)">Купить</button>
-                </div>
-            `;
-
-            const starsShop = document.getElementById('starsShop');
-            starsShop.innerHTML = `
-                <div class="shop-item">
-                    <span class="shop-item-emoji">❄️</span>
-                    <div class="shop-item-info">
-                        <div class="shop-item-name">100 снежинок</div>
-                        <div class="shop-item-price">10 ⭐</div>
-                    </div>
-                    <button class="buy-btn" onclick="buyWithStars(100, 10)">Купить</button>
-                </div>
-                <div class="shop-item">
-                    <span class="shop-item-emoji">❄️❄️</span>
-                    <div class="shop-item-info">
-                        <div class="shop-item-name">1000 снежинок</div>
-                        <div class="shop-item-price">100 ⭐</div>
-                    </div>
-                    <button class="buy-btn" onclick="buyWithStars(1000, 100)">Купить</button>
-                </div>
-            `;
-        }
-
-        // Покупка за снежинки
-        function buyItem(item, price) {
-            if (gameState.snowflakes < price) {
-                tg.showAlert('❄️ Недостаточно снежинок!');
-                return;
-            }
-            
-            gameState.snowflakes -= price;
-            gameState.inventory.push({
-                id: Date.now(),
-                emoji: '🎁',
-                name: item === 'skin' ? 'Ледяной скин' : 'Снежный эффект',
-                value: price * 0.5
-            });
-            
-            saveState();
-            updateUI();
-            tg.showAlert('✅ Покупка успешна!');
-        }
-
-        // Покупка за звезды
-        function buyWithStars(snowAmount, starCost) {
-            if (gameState.stars < starCost) {
-                tg.showAlert('⭐ Недостаточно звезд!');
-                return;
-            }
-            
-            tg.showAlert('✨ Покупка за звезды пока в разработке');
         }
 
         // Модальное окно продажи
@@ -895,7 +962,6 @@
             }
         }
 
-        // Инвентарь
         function toggleInventory() {
             const inv = document.getElementById('inventorySection');
             if (inv.style.display === 'none') {
@@ -948,7 +1014,6 @@
 
         // Инициализация
         window.onload = function() {
-            // Профиль из Telegram
             if (user) {
                 document.getElementById('userName').textContent = user.first_name + (user.last_name ? ' ' + user.last_name : '');
                 
@@ -959,10 +1024,8 @@
                 }
             }
 
-            // Загружаем состояние
             loadState();
 
-            // Показываем кейсы
             Object.values(pages).forEach(p => {
                 if (p.id !== 'casesPage') {
                     p.style.transform = 'translateX(100%)';
