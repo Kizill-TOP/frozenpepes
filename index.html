@@ -21,10 +21,10 @@
             overflow-x: hidden;
         }
 
-        /* Простые снежинки (немного, для атмосферы) */
+        /* Снежинки */
         .snowflake {
             position: fixed;
-            color: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.15);
             font-size: 20px;
             pointer-events: none;
             z-index: 0;
@@ -45,23 +45,23 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            background: rgba(0, 20, 35, 0.6);
+            background: rgba(0, 20, 35, 0.7);
             backdrop-filter: blur(10px);
         }
 
-        /* Шапка с профилем */
+        /* Шапка */
         .header {
-            padding: 15px 20px;
+            padding: 12px 15px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            background: rgba(0, 30, 50, 0.5);
+            gap: 12px;
+            background: rgba(0, 30, 50, 0.6);
             border-bottom: 1px solid rgba(100, 200, 255, 0.2);
         }
 
         .avatar {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             background: linear-gradient(135deg, #004466, #002233);
             border: 2px solid #88ccff;
@@ -69,8 +69,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 20px;
             color: white;
+            overflow: hidden;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .user-info {
@@ -78,18 +85,24 @@
         }
 
         .user-name {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             color: white;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .user-balance {
-            font-size: 14px;
+            font-size: 13px;
             color: #88ccff;
         }
 
-        /* Основной контент - контейнер для страниц */
+        .stars-balance {
+            font-size: 12px;
+            color: #ffd700;
+            margin-top: 2px;
+        }
+
+        /* Контейнер страниц */
         .pages-container {
             flex: 1;
             position: relative;
@@ -102,129 +115,197 @@
             width: 100%;
             height: 100%;
             transition: transform 0.3s ease-out;
-            padding: 20px;
+            padding: 15px;
             overflow-y: auto;
         }
 
-        /* Страницы по умолчанию */
-        #casesPage { transform: translateX(0); }
-        #shopPage { transform: translateX(100%); }
-        #statsPage { transform: translateX(100%); }
-        #settingsPage { transform: translateX(100%); }
-
-        /* Навигация */
-        .nav-bar {
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 5px;
-            background: rgba(0, 25, 40, 0.8);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(100, 200, 255, 0.2);
-        }
-
-        .nav-btn {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 8px 0;
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            border-radius: 10px;
-        }
-
-        .nav-btn.active {
+        /* Заголовки страниц - мелкие */
+        .page h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
             color: #88ccff;
-            text-shadow: 0 0 10px #88ccff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .nav-btn span {
-            font-size: 20px;
-            margin-bottom: 4px;
+        .page h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: white;
         }
 
-        /* Кейсы */
+        /* Кейсы - по центру */
         .cases-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
         }
 
         .case-item {
-            background: rgba(0, 40, 60, 0.5);
-            border-radius: 20px;
-            padding: 20px 15px;
+            background: rgba(0, 40, 60, 0.6);
+            border-radius: 15px;
+            padding: 12px 8px;
             text-align: center;
             border: 1px solid rgba(100, 200, 255, 0.2);
             transition: all 0.2s;
         }
 
         .case-item:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             border-color: #88ccff;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .case-emoji {
-            font-size: 48px;
-            margin-bottom: 10px;
-            filter: drop-shadow(0 0 10px #88ccff);
+            font-size: 32px;
+            margin-bottom: 5px;
         }
 
         .case-name {
-            font-size: 16px;
+            font-size: 12px;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
 
         .case-price {
             color: #88ccff;
-            font-size: 14px;
+            font-size: 11px;
+            margin-bottom: 8px;
         }
 
         .open-btn {
             background: linear-gradient(135deg, #004466, #002233);
             border: 1px solid #88ccff;
             color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            margin-top: 10px;
+            padding: 6px 0;
+            border-radius: 12px;
             width: 100%;
-            font-size: 14px;
+            font-size: 11px;
             cursor: pointer;
             transition: all 0.2s;
         }
 
         .open-btn:hover {
             background: #005588;
-            box-shadow: 0 0 15px #88ccff;
+            box-shadow: 0 0 10px #88ccff;
         }
 
-        /* Магазин */
-        .shop-items {
+        /* Статистика с кнопкой инвентаря */
+        .stats-grid {
             display: flex;
             flex-direction: column;
             gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .stat-card {
+            background: rgba(0, 30, 50, 0.6);
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid rgba(100, 200, 255, 0.2);
+        }
+
+        .stat-title {
+            color: #88ccff;
+            font-size: 12px;
+            margin-bottom: 3px;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .inventory-btn {
+            background: linear-gradient(135deg, #004466, #002233);
+            border: 2px solid #88ccff;
+            color: white;
+            padding: 12px;
+            border-radius: 20px;
+            width: 100%;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Инвентарь */
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .inventory-item {
+            background: rgba(0, 40, 60, 0.6);
+            border-radius: 12px;
+            padding: 8px 4px;
+            text-align: center;
+            border: 1px solid rgba(100, 200, 255, 0.2);
+            position: relative;
+        }
+
+        .item-emoji {
+            font-size: 24px;
+            margin-bottom: 3px;
+        }
+
+        .item-name {
+            font-size: 10px;
+            font-weight: bold;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .item-price {
+            font-size: 9px;
+            color: #88ccff;
+        }
+
+        .sell-btn {
+            background: #003344;
+            border: 1px solid #ff6b6b;
+            color: #ff6b6b;
+            font-size: 9px;
+            padding: 3px 0;
+            width: 100%;
+            border-radius: 8px;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+
+        /* Магазин */
+        .shop-section {
+            margin-bottom: 20px;
+        }
+
+        .shop-items {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .shop-item {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: rgba(0, 30, 50, 0.5);
-            border-radius: 15px;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(0, 30, 50, 0.6);
+            border-radius: 12px;
             border: 1px solid rgba(100, 200, 255, 0.2);
         }
 
         .shop-item-emoji {
-            font-size: 32px;
-            width: 50px;
+            font-size: 28px;
+            width: 45px;
             text-align: center;
         }
 
@@ -234,130 +315,92 @@
 
         .shop-item-name {
             font-weight: bold;
-            margin-bottom: 4px;
+            font-size: 14px;
+            margin-bottom: 2px;
         }
 
         .shop-item-price {
             color: #88ccff;
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .buy-btn {
             background: #004466;
             border: 1px solid #88ccff;
             color: white;
-            padding: 8px 15px;
-            border-radius: 15px;
-            font-size: 12px;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 11px;
             cursor: pointer;
         }
 
-        /* Статистика */
-        .stats-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .stat-card {
-            background: rgba(0, 30, 50, 0.5);
+        .stars-shop {
+            background: rgba(0, 30, 50, 0.8);
             border-radius: 15px;
             padding: 15px;
-            border: 1px solid rgba(100, 200, 255, 0.2);
+            border: 2px solid #ffd700;
+            margin-top: 15px;
         }
 
-        .stat-title {
-            color: #88ccff;
+        .stars-shop h4 {
+            color: #ffd700;
+            margin-bottom: 10px;
             font-size: 14px;
-            margin-bottom: 5px;
         }
 
-        .stat-value {
-            font-size: 24px;
-            font-weight: bold;
+        .stars-rate {
+            font-size: 13px;
+            color: white;
+            margin-bottom: 10px;
         }
 
-        /* Настройки */
-        .settings-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .setting-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            background: rgba(0, 30, 50, 0.5);
-            border-radius: 15px;
-            border: 1px solid rgba(100, 200, 255, 0.2);
-        }
-
-        .toggle {
-            width: 50px;
-            height: 30px;
-            background: #003344;
-            border-radius: 30px;
-            position: relative;
-            cursor: pointer;
-            border: 1px solid #88ccff;
-        }
-
-        .toggle::after {
-            content: '';
-            position: absolute;
-            width: 26px;
-            height: 26px;
-            background: #88ccff;
-            border-radius: 50%;
-            top: 2px;
-            left: 2px;
-            transition: 0.2s;
-        }
-
-        .toggle.active::after {
-            left: 22px;
+        .dev-badge {
+            background: rgba(255, 215, 0, 0.2);
+            border-radius: 8px;
+            padding: 5px 10px;
+            font-size: 11px;
+            color: #ffd700;
         }
 
         /* Топ игроков */
         .top-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
 
         .top-player {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: rgba(0, 30, 50, 0.5);
-            border-radius: 15px;
+            gap: 12px;
+            padding: 10px;
+            background: rgba(0, 30, 50, 0.6);
+            border-radius: 12px;
             border: 1px solid rgba(100, 200, 255, 0.2);
         }
 
         .top-rank {
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
             background: #004466;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            font-size: 12px;
             color: #88ccff;
         }
 
         .top-avatar {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             background: #002233;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 18px;
         }
 
         .top-info {
@@ -366,135 +409,211 @@
 
         .top-name {
             font-weight: bold;
+            font-size: 14px;
         }
 
         .top-score {
             color: #88ccff;
-            font-size: 12px;
+            font-size: 11px;
+        }
+
+        .empty-top {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 14px;
+        }
+
+        /* Настройки */
+        .settings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: rgba(0, 30, 50, 0.6);
+            border-radius: 12px;
+            border: 1px solid rgba(100, 200, 255, 0.2);
+        }
+
+        .toggle {
+            width: 44px;
+            height: 26px;
+            background: #003344;
+            border-radius: 26px;
+            position: relative;
+            cursor: pointer;
+            border: 1px solid #88ccff;
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: #88ccff;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: 0.2s;
+        }
+
+        .toggle.active::after {
+            left: 20px;
+        }
+
+        /* Навигация */
+        .nav-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 5px;
+            background: rgba(0, 25, 40, 0.9);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(100, 200, 255, 0.2);
+        }
+
+        .nav-btn {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 6px 0;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 8px;
+        }
+
+        .nav-btn.active {
+            color: #88ccff;
+            text-shadow: 0 0 10px #88ccff;
+        }
+
+        .nav-btn span {
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 350px;
+            background: rgba(10, 30, 45, 0.95);
+            border-radius: 25px;
+            padding: 20px;
+            border: 2px solid #88ccff;
         }
     </style>
 </head>
 <body>
-    <!-- Несколько снежинок для атмосферы -->
+    <!-- Снежинки -->
     <div class="snowflake" style="left: 10%; animation-duration: 15s;">❄️</div>
-    <div class="snowflake" style="left: 30%; animation-duration: 12s; font-size: 30px;">❄️</div>
+    <div class="snowflake" style="left: 30%; animation-duration: 12s;">❄️</div>
     <div class="snowflake" style="left: 60%; animation-duration: 18s;">❄️</div>
-    <div class="snowflake" style="left: 80%; animation-duration: 14s; font-size: 25px;">❄️</div>
+    <div class="snowflake" style="left: 80%; animation-duration: 14s;">❄️</div>
     <div class="snowflake" style="left: 45%; animation-duration: 20s;">❄️</div>
 
     <div class="container">
-        <!-- Шапка с профилем -->
+        <!-- Шапка -->
         <div class="header">
             <div class="avatar" id="userAvatar">👤</div>
             <div class="user-info">
                 <div class="user-name" id="userName">Загрузка...</div>
-                <div class="user-balance" id="userBalance">❄️ 1000 монет</div>
+                <div class="user-balance" id="userBalance">❄️ 0 монет</div>
+                <div class="stars-balance" id="starsBalance">⭐ 0 звезд</div>
             </div>
         </div>
 
-        <!-- Контейнер для страниц -->
+        <!-- Страницы -->
         <div class="pages-container">
             <!-- Кейсы (главная) -->
             <div id="casesPage" class="page">
-                <h2 style="margin-bottom: 10px;">❄️ Ледяные кейсы</h2>
-                <p style="color: #88ccff; margin-bottom: 20px;">Выбери кейс и испытай удачу!</p>
-                
-                <div class="cases-grid">
-                    <div class="case-item">
-                        <div class="case-emoji">🧊</div>
-                        <div class="case-name">Базовый</div>
-                        <div class="case-price">100 ❄️</div>
-                        <button class="open-btn" onclick="alert('Открытие кейса (в разработке)')">Открыть</button>
-                    </div>
-                    <div class="case-item">
-                        <div class="case-emoji">❄️</div>
-                        <div class="case-name">Ледяной</div>
-                        <div class="case-price">250 ❄️</div>
-                        <button class="open-btn" onclick="alert('Открытие кейса (в разработке)')">Открыть</button>
-                    </div>
-                    <div class="case-item">
-                        <div class="case-emoji">🏔️</div>
-                        <div class="case-name">Горный</div>
-                        <div class="case-price">500 ❄️</div>
-                        <button class="open-btn" onclick="alert('Открытие кейса (в разработке)')">Открыть</button>
-                    </div>
-                    <div class="case-item">
-                        <div class="case-emoji">👑</div>
-                        <div class="case-name">Королевский</div>
-                        <div class="case-price">1000 ❄️</div>
-                        <button class="open-btn" onclick="alert('Открытие кейса (в разработке)')">Открыть</button>
-                    </div>
-                </div>
+                <h2>❄️ ЛЕДЯНЫЕ КЕЙСЫ</h2>
+                <div class="cases-grid" id="casesGrid"></div>
             </div>
 
             <!-- Магазин -->
             <div id="shopPage" class="page">
-                <h2 style="margin-bottom: 20px;">🛒 Магазин</h2>
-                <div class="shop-items">
-                    <div class="shop-item">
-                        <span class="shop-item-emoji">🧊</span>
-                        <div class="shop-item-info">
-                            <div class="shop-item-name">Ледяной скин</div>
-                            <div class="shop-item-price">500 ❄️</div>
-                        </div>
-                        <button class="buy-btn" onclick="alert('Покупка (в разработке)')">Купить</button>
-                    </div>
-                    <div class="shop-item">
-                        <span class="shop-item-emoji">❄️</span>
-                        <div class="shop-item-info">
-                            <div class="shop-item-name">Снежный эффект</div>
-                            <div class="shop-item-price">300 ❄️</div>
-                        </div>
-                        <button class="buy-btn" onclick="alert('Покупка (в разработке)')">Купить</button>
-                    </div>
+                <h2>🛒 МАГАЗИН</h2>
+                
+                <div class="shop-section">
+                    <h3>❄️ За снежинки</h3>
+                    <div class="shop-items" id="snowShop"></div>
+                </div>
+
+                <div class="stars-shop">
+                    <h4>⭐ ЗА ЗВЕЗДЫ (Telegram Stars)</h4>
+                    <div class="stars-rate">Курс: 1 ⭐ = 10 ❄️</div>
+                    <div class="shop-items" id="starsShop"></div>
+                    <div class="dev-badge">✨ В разработке</div>
                 </div>
             </div>
 
             <!-- Статистика -->
             <div id="statsPage" class="page">
-                <h2 style="margin-bottom: 20px;">📊 Статистика</h2>
+                <h2>📊 СТАТИСТИКА</h2>
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-title">Открыто кейсов</div>
-                        <div class="stat-value">0</div>
+                        <div class="stat-value" id="statCases">0</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-title">Выиграно монет</div>
-                        <div class="stat-value">0 ❄️</div>
+                        <div class="stat-title">Всего выиграно</div>
+                        <div class="stat-value" id="statWon">0 ❄️</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-title">Лучший предмет</div>
-                        <div class="stat-value">-</div>
+                        <div class="stat-title">Продано предметов</div>
+                        <div class="stat-value" id="statSold">0</div>
                     </div>
+                </div>
+
+                <button class="inventory-btn" onclick="toggleInventory()">
+                    <span>📦</span> ОТКРЫТЬ ИНВЕНТАРЬ <span>📦</span>
+                </button>
+
+                <div id="inventorySection" style="display: none;">
+                    <h3>📦 ТВОИ ПРЕДМЕТЫ</h3>
+                    <div class="inventory-grid" id="inventoryGrid"></div>
                 </div>
             </div>
 
-            <!-- Топ (временно в статистике или отдельно) -->
+            <!-- Топ -->
             <div id="topPage" class="page">
-                <h2 style="margin-bottom: 20px;">🏆 Топ игроков</h2>
-                <div class="top-list">
-                    <div class="top-player">
-                        <div class="top-rank">1</div>
-                        <div class="top-avatar">👑</div>
-                        <div class="top-info">
-                            <div class="top-name">FrozenKing</div>
-                            <div class="top-score">10000 ❄️</div>
-                        </div>
-                    </div>
-                    <div class="top-player">
-                        <div class="top-rank">2</div>
-                        <div class="top-avatar">🧊</div>
-                        <div class="top-info">
-                            <div class="top-name">IceQueen</div>
-                            <div class="top-score">8500 ❄️</div>
-                        </div>
-                    </div>
+                <h2>🏆 ТОП ИГРОКОВ</h2>
+                <div class="top-list" id="topList">
+                    <div class="empty-top">❄️ Пока нет игроков ❄️</div>
                 </div>
             </div>
 
             <!-- Настройки -->
             <div id="settingsPage" class="page">
-                <h2 style="margin-bottom: 20px;">⚙️ Настройки</h2>
+                <h2>⚙️ НАСТРОЙКИ</h2>
                 <div class="settings-list">
                     <div class="setting-item">
                         <span>Уведомления</span>
@@ -505,7 +624,7 @@
                         <div class="toggle" onclick="this.classList.toggle('active')"></div>
                     </div>
                     <div class="setting-item">
-                        <span>Темная тема</span>
+                        <span>Анимации</span>
                         <div class="toggle active" onclick="this.classList.toggle('active')"></div>
                     </div>
                 </div>
@@ -537,32 +656,254 @@
         </div>
     </div>
 
+    <!-- Модальное окно продажи -->
+    <div id="sellModal" class="modal">
+        <div class="modal-content">
+            <h3 style="text-align: center; margin-bottom: 15px;">❄️ Продать предмет?</h3>
+            <p style="text-align: center; margin-bottom: 20px;" id="sellItemInfo"></p>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-primary" style="flex: 1;" onclick="confirmSell()">Продать</button>
+                <button class="btn btn-secondary" style="flex: 1;" onclick="closeSellModal()">Отмена</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
         tg.ready();
 
-        // Получаем данные пользователя Telegram
+        // Данные пользователя
         const user = tg.initDataUnsafe?.user;
+        let currentUser = user ? user.id : 'guest';
         
-        // Элементы для профиля
-        const userNameEl = document.getElementById('userName');
-        const userAvatarEl = document.getElementById('userAvatar');
-        
-        if (user) {
-            // Ставим имя из Telegram
-            userNameEl.textContent = user.first_name + (user.last_name ? ' ' + user.last_name : '');
-            
-            // Если есть фото профиля в Telegram
-            if (user.photo_url) {
-                // Можно подгрузить фото, но пока оставим эмодзи
-                userAvatarEl.innerHTML = `<img src="${user.photo_url}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
-            } else {
-                // Если нет фото, ставим первую букву имени
-                userAvatarEl.textContent = user.first_name.charAt(0).toUpperCase();
+        // Состояние игры
+        let gameState = {
+            snowflakes: 0,
+            stars: 0,
+            casesOpened: 0,
+            totalWon: 0,
+            itemsSold: 0,
+            inventory: []
+        };
+
+        // Загрузка состояния
+        function loadState() {
+            const saved = localStorage.getItem(`frozenpepe_${currentUser}`);
+            if (saved) {
+                gameState = JSON.parse(saved);
             }
-        } else {
-            userNameEl.textContent = 'Гость';
+            updateUI();
+        }
+
+        // Сохранение состояния
+        function saveState() {
+            localStorage.setItem(`frozenpepe_${currentUser}`, JSON.stringify(gameState));
+        }
+
+        // Обновление интерфейса
+        function updateUI() {
+            document.getElementById('userBalance').textContent = `❄️ ${gameState.snowflakes} монет`;
+            document.getElementById('starsBalance').textContent = `⭐ ${gameState.stars} звезд`;
+            document.getElementById('statCases').textContent = gameState.casesOpened;
+            document.getElementById('statWon').textContent = `${gameState.totalWon} ❄️`;
+            document.getElementById('statSold').textContent = gameState.itemsSold;
+            
+            updateInventory();
+            updateCases();
+            updateShop();
+        }
+
+        // Создание 12 кейсов
+        function updateCases() {
+            const casesGrid = document.getElementById('casesGrid');
+            let html = '';
+            
+            for (let i = 1; i <= 12; i++) {
+                const price = i * 50;
+                html += `
+                    <div class="case-item">
+                        <div class="case-emoji">📦</div>
+                        <div class="case-name">Кейс ${i}</div>
+                        <div class="case-price">${price} ❄️</div>
+                        <button class="open-btn" onclick="openCase(${i}, ${price})">Открыть</button>
+                    </div>
+                `;
+            }
+            
+            casesGrid.innerHTML = html;
+        }
+
+        // Открытие кейса
+        function openCase(caseNumber, price) {
+            if (gameState.snowflakes < price) {
+                tg.showAlert('❄️ Недостаточно снежинок!');
+                return;
+            }
+
+            // Вычитаем цену
+            gameState.snowflakes -= price;
+            
+            // Генерируем случайный предмет
+            const items = ['🧊', '❄️', '⛄', '🏔️', '💎', '👑', '🎮', '🎲', '🎯', '🎰', '🌟', '✨'];
+            const randomItem = items[Math.floor(Math.random() * items.length)];
+            const itemName = `Предмет ${Math.floor(Math.random() * 100)}`;
+            const itemValue = Math.floor(price * 0.7); // 70% от цены кейса
+            
+            // Добавляем в инвентарь
+            gameState.inventory.push({
+                id: Date.now() + Math.random(),
+                emoji: randomItem,
+                name: itemName,
+                value: itemValue
+            });
+            
+            // Обновляем статистику
+            gameState.casesOpened++;
+            gameState.totalWon += itemValue;
+            
+            saveState();
+            updateUI();
+            
+            tg.showAlert(`🎉 Ты выиграл: ${randomItem} (стоимость ${itemValue} ❄️)`);
+        }
+
+        // Обновление инвентаря
+        function updateInventory() {
+            const inventoryGrid = document.getElementById('inventoryGrid');
+            
+            if (gameState.inventory.length === 0) {
+                inventoryGrid.innerHTML = '<div style="grid-column: span 4; text-align: center; padding: 20px; color: rgba(255,255,255,0.3);">Пусто</div>';
+                return;
+            }
+            
+            let html = '';
+            gameState.inventory.forEach((item, index) => {
+                html += `
+                    <div class="inventory-item">
+                        <div class="item-emoji">${item.emoji}</div>
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-price">${item.value} ❄️</div>
+                        <button class="sell-btn" onclick="openSellModal(${index})">Продать</button>
+                    </div>
+                `;
+            });
+            
+            inventoryGrid.innerHTML = html;
+        }
+
+        // Обновление магазина
+        function updateShop() {
+            const snowShop = document.getElementById('snowShop');
+            snowShop.innerHTML = `
+                <div class="shop-item">
+                    <span class="shop-item-emoji">🧊</span>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">Ледяной скин</div>
+                        <div class="shop-item-price">500 ❄️</div>
+                    </div>
+                    <button class="buy-btn" onclick="buyItem('skin', 500)">Купить</button>
+                </div>
+                <div class="shop-item">
+                    <span class="shop-item-emoji">❄️</span>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">Снежный эффект</div>
+                        <div class="shop-item-price">300 ❄️</div>
+                    </div>
+                    <button class="buy-btn" onclick="buyItem('effect', 300)">Купить</button>
+                </div>
+            `;
+
+            const starsShop = document.getElementById('starsShop');
+            starsShop.innerHTML = `
+                <div class="shop-item">
+                    <span class="shop-item-emoji">❄️</span>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">100 снежинок</div>
+                        <div class="shop-item-price">10 ⭐</div>
+                    </div>
+                    <button class="buy-btn" onclick="buyWithStars(100, 10)">Купить</button>
+                </div>
+                <div class="shop-item">
+                    <span class="shop-item-emoji">❄️❄️</span>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">1000 снежинок</div>
+                        <div class="shop-item-price">100 ⭐</div>
+                    </div>
+                    <button class="buy-btn" onclick="buyWithStars(1000, 100)">Купить</button>
+                </div>
+            `;
+        }
+
+        // Покупка за снежинки
+        function buyItem(item, price) {
+            if (gameState.snowflakes < price) {
+                tg.showAlert('❄️ Недостаточно снежинок!');
+                return;
+            }
+            
+            gameState.snowflakes -= price;
+            gameState.inventory.push({
+                id: Date.now(),
+                emoji: '🎁',
+                name: item === 'skin' ? 'Ледяной скин' : 'Снежный эффект',
+                value: price * 0.5
+            });
+            
+            saveState();
+            updateUI();
+            tg.showAlert('✅ Покупка успешна!');
+        }
+
+        // Покупка за звезды
+        function buyWithStars(snowAmount, starCost) {
+            if (gameState.stars < starCost) {
+                tg.showAlert('⭐ Недостаточно звезд!');
+                return;
+            }
+            
+            tg.showAlert('✨ Покупка за звезды пока в разработке');
+        }
+
+        // Модальное окно продажи
+        let sellingItemIndex = null;
+
+        function openSellModal(index) {
+            sellingItemIndex = index;
+            const item = gameState.inventory[index];
+            document.getElementById('sellItemInfo').innerHTML = 
+                `Продать ${item.emoji} ${item.name} за ${item.value} ❄️?`;
+            document.getElementById('sellModal').classList.add('active');
+        }
+
+        function closeSellModal() {
+            document.getElementById('sellModal').classList.remove('active');
+            sellingItemIndex = null;
+        }
+
+        function confirmSell() {
+            if (sellingItemIndex !== null) {
+                const item = gameState.inventory[sellingItemIndex];
+                gameState.snowflakes += item.value;
+                gameState.inventory.splice(sellingItemIndex, 1);
+                gameState.itemsSold++;
+                
+                saveState();
+                updateUI();
+                closeSellModal();
+                tg.showAlert('✅ Предмет продан!');
+            }
+        }
+
+        // Инвентарь
+        function toggleInventory() {
+            const inv = document.getElementById('inventorySection');
+            if (inv.style.display === 'none') {
+                inv.style.display = 'block';
+                updateInventory();
+            } else {
+                inv.style.display = 'none';
+            }
         }
 
         // Навигация
@@ -578,18 +919,15 @@
         function navigateTo(page) {
             if (page === currentPage) return;
 
-            // Определяем направление анимации
             const pageOrder = ['cases', 'shop', 'stats', 'top', 'settings'];
             const currentIndex = pageOrder.indexOf(currentPage);
             const newIndex = pageOrder.indexOf(page);
             const direction = newIndex > currentIndex ? 1 : -1;
 
-            // Прячем все страницы
             Object.values(pages).forEach(p => {
                 p.style.transform = `translateX(${direction * 100}%)`;
             });
 
-            // Показываем новую страницу
             setTimeout(() => {
                 Object.values(pages).forEach(p => {
                     p.style.transform = 'translateX(100%)';
@@ -597,7 +935,6 @@
                 pages[page].style.transform = 'translateX(0)';
             }, 50);
 
-            // Обновляем активную кнопку
             document.querySelectorAll('.nav-btn').forEach((btn, index) => {
                 if (pageOrder[index] === page) {
                     btn.classList.add('active');
@@ -609,16 +946,29 @@
             currentPage = page;
         }
 
-        // Инициализация - показываем кейсы
-        Object.values(pages).forEach(p => {
-            if (p.id !== 'casesPage') {
-                p.style.transform = 'translateX(100%)';
+        // Инициализация
+        window.onload = function() {
+            // Профиль из Telegram
+            if (user) {
+                document.getElementById('userName').textContent = user.first_name + (user.last_name ? ' ' + user.last_name : '');
+                
+                if (user.photo_url) {
+                    document.getElementById('userAvatar').innerHTML = `<img src="${user.photo_url}">`;
+                } else {
+                    document.getElementById('userAvatar').textContent = user.first_name.charAt(0).toUpperCase();
+                }
             }
-        });
 
-        // Для демо - баланс
-        let balance = 1000;
-        document.getElementById('userBalance').textContent = `❄️ ${balance} монет`;
+            // Загружаем состояние
+            loadState();
+
+            // Показываем кейсы
+            Object.values(pages).forEach(p => {
+                if (p.id !== 'casesPage') {
+                    p.style.transform = 'translateX(100%)';
+                }
+            });
+        };
     </script>
 </body>
 </html>
