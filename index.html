@@ -1,806 +1,451 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FrozenPepe</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-        body {
-            background: linear-gradient(135deg, #0a1a2a 0%, #001524 100%);
-            min-height: 100vh;
-            color: white;
-            overflow-x: hidden;
-        }
-        .snowflake {
-            position: fixed;
-            color: rgba(255, 255, 255, 0.15);
-            font-size: 20px;
-            pointer-events: none;
-            z-index: 0;
-            animation: snowfall linear infinite;
-        }
-        @keyframes snowfall {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 0.3; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-        }
-        .container {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 450px;
-            margin: 0 auto;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background: rgba(0, 20, 35, 0.7);
-            backdrop-filter: blur(10px);
-        }
-        .header {
-            padding: 12px 15px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(0, 30, 50, 0.6);
-            border-bottom: 1px solid rgba(100, 200, 255, 0.2);
-        }
-        .avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #004466, #002233);
-            border: 2px solid #88ccff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            overflow: hidden;
-        }
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .user-info {
-            flex: 1;
-        }
-        .user-name {
-            font-size: 16px;
-            font-weight: bold;
-            color: white;
-            margin-bottom: 2px;
-        }
-        .user-balance {
-            font-size: 13px;
-            color: #88ccff;
-        }
-        .stars-balance {
-            font-size: 12px;
-            color: #ffd700;
-            margin-top: 2px;
-        }
-        .pages-container {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-            min-height: 500px;
-        }
-        .page {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.3s ease-out;
-            padding: 15px;
-            overflow-y: auto;
-        }
-        .page h2 {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: #88ccff;
-            text-transform: uppercase;
-            text-align: center;
-        }
-        .card {
-            background: rgba(0, 30, 50, 0.6);
-            border-radius: 15px;
-            padding: 15px;
-            border: 1px solid rgba(100, 200, 255, 0.3);
-            margin-bottom: 15px;
-        }
-        /* Баннер */
-        .banner {
-            width: 100%;
-            border-radius: 15px;
-            margin-bottom: 15px;
-            overflow: hidden;
-        }
-        .banner img {
-            width: 100%;
-            display: block;
-        }
-        /* Кейсы */
-        .cases-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin: 10px 0;
-        }
-        .case-item {
-            background: rgba(0, 40, 60, 0.6);
-            border-radius: 15px;
-            padding: 15px 10px;
-            text-align: center;
-            border: 1px solid rgba(100, 200, 255, 0.2);
-        }
-        .case-item img {
-            width: 100%;
-            border-radius: 10px;
-            margin-bottom: 8px;
-        }
-        .case-name {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .case-price {
-            color: #88ccff;
-            font-size: 13px;
-            margin-bottom: 10px;
-        }
-        .price-tag {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        .price-snow {
-            background: #003344;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-        }
-        .price-star {
-            background: #332200;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            color: #ffd700;
-        }
-        .open-btn {
-            background: linear-gradient(135deg, #004466, #002233);
-            border: 1px solid #88ccff;
-            color: white;
-            padding: 8px 0;
-            border-radius: 20px;
-            width: 100%;
-            font-size: 12px;
-            cursor: pointer;
-        }
-        .open-btn:hover {
-            background: #005588;
-        }
-        /* Джекпот */
-        .jackpot-banner {
-            background: linear-gradient(135deg, #332200, #001a2a);
-            border: 2px solid #ffd700;
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .jackpot-amount {
-            font-size: 32px;
-            font-weight: bold;
-            color: #ffd700;
-            text-shadow: 0 0 20px #ffd700;
-        }
-        .winners-list {
-            background: rgba(0, 30, 50, 0.6);
-            border-radius: 12px;
-            padding: 10px;
-            margin-bottom: 15px;
-        }
-        .winner-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .bet-section {
-            background: rgba(0, 40, 60, 0.6);
-            border-radius: 15px;
-            padding: 15px;
-        }
-        select, input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 15px;
-            border: 2px solid rgba(100, 200, 255, 0.3);
-            background: rgba(0, 20, 40, 0.8);
-            color: white;
-            margin-bottom: 10px;
-        }
-        .jackpot-btn {
-            background: linear-gradient(135deg, #664400, #332200);
-            border: 2px solid #ffd700;
-            color: #ffd700;
-            font-weight: bold;
-        }
-        .info-text {
-            font-size: 12px;
-            color: #88ccff;
-            margin-top: 5px;
-        }
-        /* Остальные стили (инвентарь, топ, настройки) */
-        .stats-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .stat-card {
-            background: rgba(0, 30, 50, 0.6);
-            border-radius: 12px;
-            padding: 12px;
-            border: 1px solid rgba(100, 200, 255, 0.2);
-        }
-        .stat-title {
-            color: #88ccff;
-            font-size: 12px;
-        }
-        .stat-value {
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .inventory-btn {
-            background: linear-gradient(135deg, #004466, #002233);
-            border: 2px solid #88ccff;
-            color: white;
-            padding: 12px;
-            border-radius: 20px;
-            width: 100%;
-            font-size: 14px;
-            cursor: pointer;
-            margin: 10px 0;
-        }
-        .inventory-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin: 10px 0;
-        }
-        .inventory-item {
-            background: rgba(0, 40, 60, 0.6);
-            border-radius: 12px;
-            padding: 8px 4px;
-            text-align: center;
-            border: 1px solid rgba(100, 200, 255, 0.2);
-        }
-        .sell-btn {
-            background: #003344;
-            border: 1px solid #ff6b6b;
-            color: #ff6b6b;
-            font-size: 9px;
-            padding: 3px 0;
-            width: 100%;
-            border-radius: 8px;
-            margin-top: 5px;
-            cursor: pointer;
-        }
-        .top-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .top-player {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px;
-            background: rgba(0, 30, 50, 0.6);
-            border-radius: 12px;
-        }
-        .nav-bar {
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 5px;
-            background: rgba(0, 25, 40, 0.9);
-            border-top: 1px solid rgba(100, 200, 255, 0.2);
-        }
-        .nav-btn {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 6px 0;
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 10px;
-            cursor: pointer;
-        }
-        .nav-btn.active {
-            color: #88ccff;
-        }
-        .nav-btn span {
-            font-size: 18px;
-            margin-bottom: 2px;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal.active {
-            display: flex;
-        }
-        .modal-content {
-            width: 90%;
-            max-width: 350px;
-            background: rgba(10, 30, 45, 0.95);
-            border-radius: 25px;
-            padding: 20px;
-            border: 2px solid #88ccff;
-        }
-    </style>
-</head>
-<body>
-    <!-- Снежинки -->
-    <div class="snowflake" style="left: 10%; animation-duration: 15s;">❄️</div>
-    <div class="snowflake" style="left: 30%; animation-duration: 12s;">❄️</div>
-    <div class="snowflake" style="left: 60%; animation-duration: 18s;">❄️</div>
-    <div class="snowflake" style="left: 80%; animation-duration: 14s;">❄️</div>
-    <div class="snowflake" style="left: 45%; animation-duration: 20s;">❄️</div>
+// ===== СОСТОЯНИЕ =====
+const state = {
+    user: null,
+    balance: 0,
+    stars: 0,
+    stats: { cases: 0, sold: 0 },
+    inventory: []
+};
 
-    <div class="container">
-        <!-- Шапка профиля -->
-        <div class="header">
-            <div class="avatar" id="userAvatar">👤</div>
-            <div class="user-info">
-                <div class="user-name" id="userName">Загрузка...</div>
-                <div class="user-balance" id="balance">❄️ 0</div>
-                <div class="stars-balance" id="starsBalance">⭐ 0</div>
-            </div>
-        </div>
+// ===== TELEGRAM =====
+const tg = window.Telegram.WebApp;
+tg.expand();
+tg.ready();
 
-        <!-- Баннер сверху (добавлен) -->
-        <div class="banner">
-            <img src="https://i.supaimg.com/35109a74-45db-4273-8c8b-a2cf76a8841a/1e08651f-bb93-4b96-afa6-d9f0022de9f0.png" alt="FrozenPepe Banner">
-        </div>
+// универсальная отправка
+function send(action, data = {}) {
+    tg.sendData(JSON.stringify({
+        action,
+        ...data
+    }));
+}
 
-        <!-- Страницы -->
-        <div class="pages-container">
-            <!-- Кейсы -->
-            <div id="casesPage" class="page">
-                <h2>❄️ ЛЕДЯНЫЕ КЕЙСЫ</h2>
-                <div class="cases-grid" id="casesGrid"></div>
-            </div>
+// ===== ПРОФИЛЬ =====
+function initProfile() {
+    const user = tg.initDataUnsafe?.user;
+    if (!user) return;
 
-            <!-- Джекпот (новая страница) -->
-            <div id="jackpotPage" class="page">
-                <h2>🎰 ДЖЕКПОТ</h2>
-                
-                <div class="jackpot-banner">
-                    <div style="font-size: 14px; margin-bottom: 5px;">ТЕКУЩИЙ БАНК</div>
-                    <div class="jackpot-amount" id="jackpotAmount">0 ❄️</div>
+    state.user = user;
+
+    document.getElementById('userName').textContent =
+        user.first_name + (user.last_name ? ' ' + user.last_name : '');
+
+    if (user.photo_url) {
+        document.getElementById('userAvatar').innerHTML =
+            `<img src="${user.photo_url}">`;
+    } else {
+        document.getElementById('userAvatar').textContent =
+            user.first_name.charAt(0);
+    }
+}
+
+// ===== ОБНОВЛЕНИЕ UI =====
+function updateUI() {
+    document.getElementById('balance').textContent = `❄️ ${state.balance}`;
+    document.getElementById('starsBalance').textContent = `⭐ ${state.stars}`;
+    document.getElementById('statCases').textContent = state.stats.cases;
+    document.getElementById('statSold').textContent = state.stats.sold;
+
+    updateInventory();
+}
+
+// ===== КЕЙСЫ =====
+function renderCases() {
+
+    const cases = [
+        {
+            id: 'trash',
+            name: 'Trash Gifts',
+            price: 750,
+            stars: 75,
+            img: 'https://i.supaimg.com/35109a74-45db-4273-8c8b-a2cf76a8841a/a32b454a-9582-4904-bc0c-ea441b62a589.png'
+        },
+        {
+            id: 'start',
+            name: 'Start Gifts',
+            price: 750,
+            stars: 75,
+            img: 'https://i.supaimg.com/35109a74-45db-4273-8c8b-a2cf76a8841a/a404bd24-934a-42ad-9db1-d368ecf0e760.png'
+        },
+        {
+            id: 'frozen',
+            name: 'Frozen Gifts',
+            coming: true
+        }
+    ];
+
+    document.getElementById('casesGrid').innerHTML = cases.map(c => `
+        <div class="case-item ${c.coming ? 'coming' : ''}">
+        
+            ${c.img
+            ? `<img src="${c.img}" alt="${c.name}">`
+            : `<div class="case-emoji">❄️</div>`}
+
+            <div class="case-name">${c.name}</div>
+
+            ${
+            !c.coming
+                ? `
+                <div class="price-tag">
+                    <span class="price-snow">${c.price} ❄️</span>
+                    <span class="price-star">${c.stars} ⭐</span>
                 </div>
 
-                <div class="winners-list">
-                    <h3 style="margin-bottom: 10px;">🏆 Последние победители</h3>
-                    <div id="winnersList">
-                        <!-- Заглушка, будет заполняться данными -->
-                        <div class="winner-item"><span>Игрок 1</span><span>1000 ❄️</span></div>
-                        <div class="winner-item"><span>Игрок 2</span><span>750 ❄️</span></div>
-                    </div>
-                </div>
-
-                <div class="bet-section">
-                    <h3 style="margin-bottom: 10px;">🎲 Сделать ставку</h3>
-                    <select id="itemSelect">
-                        <option value="">Выберите предмет из инвентаря</option>
-                    </select>
-                    <div class="info-text" id="selectedItemInfo"></div>
-                    <button class="jackpot-btn" onclick="placeBet()" style="margin-top: 15px;">🔄 Крутить джекпот</button>
-                </div>
-            </div>
-
-            <!-- Магазин -->
-            <div id="shopPage" class="page">
-                <h2>⭐ МАГАЗИН</h2>
-                <div class="card">
-                    <p style="margin-bottom: 10px;">Курс: <b>1 ⭐ = 10 ❄️</b></p>
-                    <input type="number" id="snowInput" placeholder="Сколько ❄️ купить">
-                    <button onclick="buySnow()">Купить за звезды</button>
-                </div>
-            </div>
-
-            <!-- Статистика -->
-            <div id="statsPage" class="page">
-                <h2>📊 СТАТИСТИКА</h2>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-title">Открыто кейсов</div>
-                        <div class="stat-value" id="statCases">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-title">Продано предметов</div>
-                        <div class="stat-value" id="statSold">0</div>
-                    </div>
-                </div>
-                <button class="inventory-btn" onclick="toggleInventory()">
-                    <span>📦</span> ОТКРЫТЬ ИНВЕНТАРЬ <span>📦</span>
+                <button class="open-btn"
+                    onclick="openCase('${c.id}')">
+                    Открыть
                 </button>
-                <div id="inventorySection" style="display: none;">
-                    <h3 style="margin: 15px 0 10px;">Твои предметы</h3>
-                    <div class="inventory-grid" id="inventoryGrid"></div>
-                </div>
+            `
+                : `<button class="open-btn"
+                    onclick="tg.showAlert('Скоро!')">
+                    Скоро
+                </button>`
+        }
+
+        </div>
+    `).join('');
+}
+
+function openCase(caseId) {
+    tg.showAlert("❄️ Кейсы пока в разработке");
+}
+
+// ===== ДЖЕКПОТ =====
+function renderJackpot() {
+
+    const select = document.getElementById('itemSelect');
+
+    select.innerHTML =
+        '<option value="">Выберите предмет</option>' +
+
+        state.inventory.map((item, i) =>
+
+            `<option value="${i}">
+                ${item.emoji} ${item.name} (${item.value} ❄️)
+            </option>`
+
+        ).join('');
+}
+
+function placeBet() {
+
+    const index = document.getElementById('itemSelect').value;
+
+    if (index === '')
+        return tg.showAlert("❄️ Выбери предмет");
+
+    const item = state.inventory[index];
+
+    send("place_jackpot_bet", {
+        item_id: item.id
+    });
+}
+
+// ===== МАГАЗИН =====
+function buySnow() {
+
+    const amount =
+        parseInt(document.getElementById('snowInput').value);
+
+    if (!amount || amount < 10)
+        return tg.showAlert("❄️ Минимум 10 снежинок");
+
+    send("buy", {
+        amount: Math.ceil(amount / 10) * 10
+    });
+}
+
+// ===== ИНВЕНТАРЬ =====
+let sellingIndex = null;
+
+function updateInventory() {
+
+    const grid =
+        document.getElementById("inventoryGrid");
+
+    if (!state.inventory.length) {
+
+        grid.innerHTML =
+            `<div class="empty">Пусто</div>`;
+
+        return;
+    }
+
+    grid.innerHTML = state.inventory.map((item, i) => `
+
+        <div class="inventory-item rarity-${item.rarity || 'common'}">
+
+            <div class="item-emoji">
+                ${item.emoji || "📦"}
             </div>
 
-            <!-- Топ -->
-            <div id="topPage" class="page">
-                <h2>🏆 ТОП ИГРОКОВ</h2>
-                <div class="top-list" id="topList">
-                    <div class="empty-top" style="text-align: center; padding: 30px; color: rgba(255,255,255,0.3);">
-                        ❄️ Загрузка...
-                    </div>
-                </div>
+            <div class="item-name">
+                ${item.name}
             </div>
 
-            <!-- Настройки -->
-            <div id="settingsPage" class="page">
-                <h2>⚙️ НАСТРОЙКИ</h2>
-                <div class="card">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span>Уведомления</span>
-                        <div class="toggle" style="width: 44px; height: 26px; background: #003344; border-radius: 26px; border: 1px solid #88ccff; position: relative; cursor: pointer;" onclick="this.classList.toggle('active')">
-                            <div style="width: 22px; height: 22px; background: #88ccff; border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: 0.2s;"></div>
-                        </div>
-                    </div>
-                </div>
+            <div class="item-price">
+                ${item.value} ❄️
             </div>
+
+            <button class="sell-btn"
+                onclick="openSellModal(${i})">
+
+                Продать
+
+            </button>
+
         </div>
 
-        <!-- Навигация (обновлена: добавлен Джекпот) -->
-        <div class="nav-bar">
-            <button class="nav-btn active" onclick="navigateTo('cases')"><span>📦</span>Кейсы</button>
-            <button class="nav-btn" onclick="navigateTo('jackpot')"><span>🎰</span>Джекпот</button>
-            <button class="nav-btn" onclick="navigateTo('shop')"><span>⭐</span>Магазин</button>
-            <button class="nav-btn" onclick="navigateTo('stats')"><span>📊</span>Статы</button>
-            <button class="nav-btn" onclick="navigateTo('top')"><span>🏆</span>Топ</button>
+    `).join('');
+
+    renderJackpot();
+}
+
+function openSellModal(index) {
+
+    sellingIndex = index;
+
+    const item = state.inventory[index];
+
+    document.getElementById("sellItemInfo").innerHTML =
+        `Продать ${item.emoji} ${item.name}
+         за ${item.value} ❄️ ?`;
+
+    document
+        .getElementById("sellModal")
+        .classList.add("active");
+}
+
+function closeSellModal() {
+
+    document
+        .getElementById("sellModal")
+        .classList.remove("active");
+
+    sellingIndex = null;
+}
+
+function confirmSell() {
+
+    if (sellingIndex === null)
+        return;
+
+    const item = state.inventory[sellingIndex];
+
+    send("sell_item", {
+        item_id: item.id,
+        price: item.value
+    });
+
+    closeSellModal();
+}
+
+// ===== ТОП =====
+function requestTop() {
+    send("get_top");
+}
+
+function renderTop(users) {
+
+    const list =
+        document.getElementById("topList");
+
+    if (!users || !users.length) {
+
+        list.innerHTML =
+            `<div class="empty-top">
+                ❄️ Пока нет игроков
+            </div>`;
+
+        return;
+    }
+
+    list.innerHTML = users.map((u, i) => `
+
+        <div class="top-player">
+
+            <div class="top-rank">
+                ${i + 1}
+            </div>
+
+            <div class="top-avatar">
+                👤
+            </div>
+
+            <div class="top-info">
+
+                <div class="top-name">
+                    ${u.username}
+                </div>
+
+                <div class="top-score">
+                    ${u.snowflakes} ❄️
+                </div>
+
+            </div>
+
         </div>
-    </div>
 
-    <!-- Модалка продажи -->
-    <div id="sellModal" class="modal">
-        <div class="modal-content">
-            <h3 style="text-align: center; margin-bottom: 15px;">❄️ Продать предмет?</h3>
-            <p style="text-align: center; margin-bottom: 20px;" id="sellItemInfo"></p>
-            <button onclick="confirmSell()" style="margin-bottom: 10px;">Продать</button>
-            <button onclick="closeSellModal()" style="background: transparent;">Отмена</button>
-        </div>
-    </div>
+    `).join("");
+}
 
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.ready();
+// ===== НАВИГАЦИЯ =====
+let currentPage = "cases";
 
-        const user = tg.initDataUnsafe?.user;
-        let snowflakes = 0;
-        let stars = 0;
-        let casesOpened = 0;
-        let itemsSold = 0;
-        let inventory = [];
+const pages = [
+    "cases",
+    "jackpot",
+    "shop",
+    "stats",
+    "top"
+];
 
-        if (user) {
-            document.getElementById('userName').textContent = 
-                user.first_name + (user.last_name ? ' ' + user.last_name : '');
-            if (user.photo_url) {
-                document.getElementById('userAvatar').innerHTML = `<img src="${user.photo_url}">`;
-            } else {
-                document.getElementById('userAvatar').textContent = user.first_name.charAt(0).toUpperCase();
-            }
-        }
+function navigateTo(page) {
 
-        function updateUI() {
-            document.getElementById('balance').textContent = `❄️ ${snowflakes}`;
-            document.getElementById('starsBalance').textContent = `⭐ ${stars}`;
-            document.getElementById('statCases').textContent = casesOpened;
-            document.getElementById('statSold').textContent = itemsSold;
-            updateInventory();
-        }
+    if (page === currentPage)
+        return;
 
-        // Кейсы (обновлены с твоими картинками)
-        function updateCases() {
-            const casesGrid = document.getElementById('casesGrid');
-            casesGrid.innerHTML = `
-                <div class="case-item">
-                    <img src="https://i.supaimg.com/35109a74-45db-4273-8c8b-a2cf76a8841a/a32b454a-9582-4904-bc0c-ea441b62a589.png" alt="Trash Gifts">
-                    <div class="case-name">Trash Gifts</div>
-                    <div class="price-tag">
-                        <span class="price-snow">750 ❄️</span>
-                        <span class="price-star">75 ⭐</span>
-                    </div>
-                    <button class="open-btn" onclick="openCase('trash')">Открыть</button>
-                </div>
-                <div class="case-item">
-                    <img src="https://i.supaimg.com/35109a74-45db-4273-8c8b-a2cf76a8841a/a404bd24-934a-42ad-9db1-d368ecf0e760.png" alt="Start Gifts">
-                    <div class="case-name">Start Gifts</div>
-                    <div class="price-tag">
-                        <span class="price-snow">750 ❄️</span>
-                        <span class="price-star">75 ⭐</span>
-                    </div>
-                    <button class="open-btn" onclick="openCase('start')">Открыть</button>
-                </div>
-                <div class="case-item">
-                    <div class="case-emoji" style="font-size: 48px;">❄️</div>
-                    <div class="case-name">Frozen Gifts</div>
-                    <div class="price-tag">
-                        <span class="price-snow">Скоро</span>
-                    </div>
-                    <button class="open-btn" onclick="tg.showAlert('Скоро!')">Скоро</button>
-                </div>
-            `;
-        }
+    pages.forEach(p => {
 
-        function openCase(type) {
-            tg.showAlert('❄️ Кейсы в разработке!');
-        }
+        const el =
+            document.getElementById(p + "Page");
 
-        // Джекпот функции
-        function updateJackpotInfo() {
-            tg.sendData(JSON.stringify({ action: "get_jackpot_info" }));
-        }
+        if (!el) return;
 
-        function updateItemSelect() {
-            const select = document.getElementById('itemSelect');
-            select.innerHTML = '<option value="">Выберите предмет из инвентаря</option>';
-            inventory.forEach((item, index) => {
-                const option = document.createElement('option');
-                option.value = index;
-                option.textContent = `${item.emoji} ${item.name} (${item.value} ❄️)`;
-                select.appendChild(option);
-            });
-        }
+        el.style.display =
+            p === page ? "block" : "none";
 
-        document.getElementById('itemSelect').addEventListener('change', function(e) {
-            const index = e.target.value;
-            if (index !== '') {
-                const item = inventory[index];
-                document.getElementById('selectedItemInfo').textContent = 
-                    `Редкость: ${item.rarity || 'обычный'} | Шанс: ${item.chance || 50}%`;
-            } else {
-                document.getElementById('selectedItemInfo').textContent = '';
-            }
+    });
+
+    document
+        .querySelectorAll(".nav-btn")
+        .forEach((btn, i) => {
+
+            btn.classList.toggle(
+                "active",
+                pages[i] === page
+            );
+
         });
 
-        function placeBet() {
-            const index = document.getElementById('itemSelect').value;
-            if (index === '') {
-                tg.showAlert('❄️ Выбери предмет!');
-                return;
-            }
-            const item = inventory[index];
-            tg.sendData(JSON.stringify({
-                action: "place_jackpot_bet",
-                item_id: item.id
-            }));
-        }
+    currentPage = page;
 
-        // Остальные функции
-        function buySnow() {
-            let amount = parseInt(document.getElementById("snowInput").value);
-            if(!amount || amount <= 0) {
-                tg.showAlert("Введите корректное число");
-                return;
-            }
-            const stars = Math.ceil(amount / 10);
-            const finalSnow = stars * 10;
-            tg.sendData(JSON.stringify({
-                action: "buy",
-                amount: finalSnow
-            }));
-        }
+    if (page === "top") requestTop();
+    if (page === "jackpot") renderJackpot();
+}
 
-        function updateInventory() {
-            const inventoryGrid = document.getElementById('inventoryGrid');
-            if (inventory.length === 0) {
-                inventoryGrid.innerHTML = '<div style="grid-column: span 4; text-align: center; padding: 20px; color: rgba(255,255,255,0.3);">Пусто</div>';
-                return;
-            }
-            let html = '';
-            inventory.forEach((item, index) => {
-                html += `
-                    <div class="inventory-item">
-                        <div class="item-emoji">${item.emoji || '📦'}</div>
-                        <div class="item-name">${item.name || 'Предмет'}</div>
-                        <div class="item-price">${item.value || 0} ❄️</div>
-                        <button class="sell-btn" onclick="openSellModal(${index})">Продать</button>
-                    </div>
-                `;
-            });
-            inventoryGrid.innerHTML = html;
-            updateItemSelect(); // Обновляем select в джекпоте
-        }
+// ===== СООБЩЕНИЯ ОТ БОТА =====
+tg.onEvent("message", function(event) {
 
-        function toggleInventory() {
-            const inv = document.getElementById('inventorySection');
-            inv.style.display = inv.style.display === 'none' ? 'block' : 'none';
-        }
+    try {
 
-        let sellingItemIndex = null;
-        function openSellModal(index) {
-            sellingItemIndex = index;
-            const item = inventory[index];
-            document.getElementById('sellItemInfo').innerHTML = 
-                `Продать ${item.emoji || '📦'} ${item.name || 'предмет'} за ${item.value || 0} ❄️?`;
-            document.getElementById('sellModal').classList.add('active');
-        }
-        function closeSellModal() {
-            document.getElementById('sellModal').classList.remove('active');
-            sellingItemIndex = null;
-        }
-        function confirmSell() {
-            if (sellingItemIndex !== null) {
-                const item = inventory[sellingItemIndex];
-                tg.sendData(JSON.stringify({
-                    action: "sell_item",
-                    item_id: item.id,
-                    price: item.value
-                }));
-                closeSellModal();
-            }
-        }
+        const data =
+            JSON.parse(event.data);
 
-        function requestTop() {
-            tg.sendData(JSON.stringify({ action: "get_top" }));
-        }
+        switch (data.type) {
 
-        // Навигация
-        let currentPage = 'cases';
-        const pages = {
-            cases: document.getElementById('casesPage'),
-            jackpot: document.getElementById('jackpotPage'),
-            shop: document.getElementById('shopPage'),
-            stats: document.getElementById('statsPage'),
-            top: document.getElementById('topPage')
-        };
+            case "balance":
 
-        function navigateTo(page) {
-            if (page === currentPage) return;
-            
-            const pageOrder = ['cases', 'jackpot', 'shop', 'stats', 'top'];
-            const direction = pageOrder.indexOf(page) > pageOrder.indexOf(currentPage) ? 1 : -1;
+                state.balance =
+                    data.snowflakes || 0;
 
-            Object.values(pages).forEach(p => {
-                p.style.transform = `translateX(${direction * 100}%)`;
-            });
+                state.stars =
+                    data.stars || 0;
 
-            setTimeout(() => {
-                Object.values(pages).forEach(p => p.style.transform = 'translateX(100%)');
-                pages[page].style.transform = 'translateX(0)';
-            }, 50);
+                break;
 
-            document.querySelectorAll('.nav-btn').forEach((btn, i) => {
-                btn.classList.toggle('active', pageOrder[i] === page);
-            });
 
-            currentPage = page;
-            if (page === 'top') requestTop();
-            if (page === 'jackpot') updateJackpotInfo();
-        }
+            case "inventory":
 
-        // Получение данных от бота
-        tg.onEvent('message', function(event) {
-            try {
-                const data = JSON.parse(event.data);
-                
-                if (data.type === 'balance') {
-                    snowflakes = data.snowflakes || 0;
-                    stars = data.stars || 0;
-                    updateUI();
-                }
-                
-                if (data.type === 'inventory') {
-                    inventory = data.items || [];
-                    updateInventory();
-                }
-                
-                if (data.type === 'stats') {
-                    casesOpened = data.casesOpened || 0;
-                    itemsSold = data.itemsSold || 0;
-                    updateUI();
-                }
-                
-                if (data.type === 'top') {
-                    const list = document.getElementById("topList");
-                    if (!data.users || data.users.length === 0) {
-                        list.innerHTML = '<div class="empty-top">❄️ Пока нет игроков</div>';
-                        return;
-                    }
-                    let html = "";
-                    data.users.forEach((u, i) => {
-                        html += `
-                            <div class="top-player">
-                                <div class="top-rank">${i+1}</div>
-                                <div class="top-avatar">👤</div>
-                                <div class="top-info">
-                                    <div class="top-name">${u.username || 'Игрок'}</div>
-                                    <div class="top-score">${u.snowflakes || 0} ❄️</div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    list.innerHTML = html;
-                }
-                
-                if (data.type === 'sell_result') {
-                    if (data.success) {
-                        snowflakes = data.new_balance;
-                        inventory = inventory.filter((_, i) => i !== sellingItemIndex);
-                        itemsSold++;
-                        sellingItemIndex = null;
-                        updateUI();
-                        tg.showAlert('✅ Предмет продан!');
-                    } else {
-                        tg.showAlert(data.message || '❄️ Ошибка');
-                    }
+                state.inventory =
+                    data.items || [];
+
+                break;
+
+
+            case "stats":
+
+                state.stats.cases =
+                    data.casesOpened || 0;
+
+                state.stats.sold =
+                    data.itemsSold || 0;
+
+                break;
+
+
+            case "top":
+
+                renderTop(data.users);
+
+                break;
+
+
+            case "sell_result":
+
+                if (data.success &&
+                    sellingIndex !== null) {
+
+                    state.inventory.splice(
+                        sellingIndex,
+                        1
+                    );
+
+                    sellingIndex = null;
                 }
 
-                if (data.type === 'jackpot_info') {
-                    document.getElementById('jackpotAmount').textContent = `${data.jackpot || 0} ❄️`;
-                    if (data.winners) {
-                        const winnersHtml = data.winners.map(w => 
-                            `<div class="winner-item"><span>${w.name}</span><span>${w.prize} ❄️</span></div>`
-                        ).join('');
-                        document.getElementById('winnersList').innerHTML = winnersHtml;
-                    }
-                }
+                tg.showAlert(
+                    data.success
+                        ? "✅ Предмет продан!"
+                        : "❄️ Ошибка"
+                );
 
-                if (data.type === 'jackpot_result') {
-                    if (data.win) {
-                        tg.showAlert(`🎉 Ты выиграл ${data.prize} ❄️!`);
-                        snowflakes = data.new_balance;
-                        inventory = inventory.filter(item => item.id !== data.used_item_id);
-                        updateUI();
-                    } else {
-                        tg.showAlert('😢 В этот раз не повезло...');
-                        inventory = inventory.filter(item => item.id !== data.used_item_id);
-                        updateUI();
-                    }
-                }
-            } catch(e) {
-                console.error('Error:', e);
-            }
-        });
+                break;
 
-        // Загрузка
-        window.onload = function() {
-            updateCases();
-            tg.sendData(JSON.stringify({ action: "get_balance" }));
-            tg.sendData(JSON.stringify({ action: "get_inventory" }));
-            tg.sendData(JSON.stringify({ action: "get_stats" }));
-            
-            Object.values(pages).forEach(p => {
-                if (p.id !== 'casesPage') {
-                    p.style.transform = 'translateX(100%)';
-                }
-            });
-        };
-    </script>
-</body>
-</html>
+
+            case "jackpot_result":
+
+                tg.showAlert(
+
+                    data.win
+                        ? `🎉 Ты выиграл ${data.prize} ❄️!`
+                        : "😢 Не повезло..."
+
+                );
+
+                break;
+        }
+
+        updateUI();
+
+    } catch(e) {
+
+        console.error("FrozenPepe error:", e);
+
+    }
+
+});
+
+// ===== СТАРТ =====
+window.onload = function() {
+
+    initProfile();
+    renderCases();
+
+    // загрузка данных
+    send("get_balance");
+    send("get_inventory");
+    send("get_stats");
+
+    pages.forEach(p => {
+
+        const el =
+            document.getElementById(p + "Page");
+
+        if (!el) return;
+
+        if (p !== "cases")
+            el.style.display = "none";
+
+    });
+};
