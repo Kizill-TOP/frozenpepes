@@ -149,12 +149,6 @@
             margin-bottom: 5px;
         }
 
-        .case-price {
-            color: #88ccff;
-            font-size: 13px;
-            margin-bottom: 10px;
-        }
-
         .price-tag {
             display: flex;
             justify-content: center;
@@ -713,8 +707,8 @@
             if (page === 'jackpot') renderJackpot();
         }
 
-        // ===== СООБЩЕНИЯ =====
-        window.addEventListener('message', function(event) {
+        // ===== СООБЩЕНИЯ ОТ БОТА (ИСПРАВЛЕНО!) =====
+        tg.onEvent('message', function(event) {
             try {
                 const data = JSON.parse(event.data);
                 
