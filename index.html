@@ -37,15 +37,35 @@
         }
 
         /* загрузка */
-        .skeleton {
-            background: linear-gradient(90deg, #1a1f2a 25%, #2a2f3a 50%, #1a1f2a 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: 16px;
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0f1a;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 16px;
+            transition: opacity 0.3s;
         }
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+        .loader.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid #2a3a55;
+            border-top-color: #6ea8fe;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         .app {
@@ -56,6 +76,11 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .app.loaded {
+            opacity: 1;
         }
 
         /* баннер */
@@ -63,7 +88,6 @@
             width: 100%;
             aspect-ratio: 16 / 5;
             overflow: hidden;
-            margin-bottom: 8px;
         }
         .banner img {
             width: 100%;
@@ -71,7 +95,7 @@
             object-fit: cover;
         }
 
-        /* компактная шапка */
+        /* шапка */
         .compact-header {
             display: flex;
             align-items: center;
@@ -170,15 +194,16 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.95);
             backdrop-filter: blur(20px);
             padding: 30px 40px;
             border-radius: 60px;
             text-align: center;
-            z-index: 10000;
-            font-size: 32px;
+            z-index: 10001;
+            font-size: 28px;
             animation: popOpen 0.4s ease;
             border: 2px solid #ffd966;
+            box-shadow: 0 0 50px rgba(255,217,102,0.3);
         }
         @keyframes popOpen {
             0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
@@ -226,21 +251,6 @@
             font-weight: bold;
         }
 
-        /* магазин */
-        .promo-input {
-            display: flex;
-            gap: 8px;
-            margin-top: 8px;
-        }
-        .promo-input input {
-            flex: 1;
-            background: #111827;
-            border: 1px solid #2a3a55;
-            border-radius: 60px;
-            padding: 12px;
-            color: white;
-        }
-
         /* навигация */
         .bottom-nav {
             display: flex;
@@ -267,15 +277,17 @@
         .nav-item.active { color: #6ea8fe; text-shadow: 0 0 6px #6ea8fe; }
         .nav-item span:first-child { font-size: 22px; }
 
-        .empty {
-            text-align: center;
-            padding: 20px;
-            color: #aaa;
-        }
+        .empty { text-align: center; padding: 20px; color: #aaa; }
     </style>
 </head>
 <body>
-<div class="app">
+<!-- загрузчик -->
+<div class="loader" id="loader">
+    <div class="spinner"></div>
+    <div>❄️ Загрузка FrozenPepe...</div>
+</div>
+
+<div class="app" id="app">
     <!-- БАННЕР -->
     <div class="banner">
         <img src="https://i.supaimg.com/35109a74-45db-4273-8c8b-a2cf76a8841a/1e08651f-bb93-4b96-afa6-d9f0022de9f0.png" alt="FrozenPepe">
@@ -295,29 +307,26 @@
 
     <!-- СТРАНИЦЫ -->
     <div id="homePage" class="page active">
-        <!-- быстрые кнопки -->
-        <div class="home-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
-            <div class="big-square" style="background:#111827cc; border-radius:24px; padding:16px; text-align:center;" onclick="navigateTo('cases')">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+            <div style="background:#111827cc; border-radius:24px; padding:16px; text-align:center;" onclick="navigateTo('cases')">
                 <span style="font-size:32px;">📦</span>
                 <div>Кейсы</div>
             </div>
-            <div class="big-square" style="background:#111827cc; border-radius:24px; padding:16px; text-align:center;" onclick="navigateTo('jackpot')">
+            <div style="background:#111827cc; border-radius:24px; padding:16px; text-align:center;" onclick="navigateTo('jackpot')">
                 <span style="font-size:32px;">🎰</span>
                 <div>Джекпот</div>
             </div>
-            <div class="big-square" style="background:#111827cc; border-radius:24px; padding:16px; text-align:center;" onclick="navigateTo('shop')">
-                <span style="font-size:32px;">⭐</span>
-                <div>Магазин</div>
-            </div>
-            <div class="big-square" style="background:#111827cc; border-radius:24px; padding:16px; text-align:center;" onclick="navigateTo('profile')">
+            <div style="background:#111827cc; border-radius:24px; padding:16px; text-align:center;" onclick="navigateTo('profile')">
                 <span style="font-size:32px;">👤</span>
                 <div>Профиль</div>
             </div>
+            <div style="background:#111827cc; border-radius:24px; padding:16px; text-align:center;" onclick="navigateTo('top')">
+                <span style="font-size:32px;">🏆</span>
+                <div>Топ</div>
+            </div>
         </div>
-
-        <!-- превью кейсов на главной -->
         <div class="card">
-            <h3 style="margin-bottom: 12px;">🎁 Популярные кейсы</h3>
+            <h3 style="margin-bottom: 12px;">🎁 Кейсы</h3>
             <div class="cases-grid" id="homeCasesGrid"></div>
         </div>
     </div>
@@ -330,27 +339,9 @@
     <div id="jackpotPage" class="page">
         <div class="card" style="text-align:center;">
             <div style="font-size: 36px;">🎰</div>
-            <div class="jackpot-amount" id="jackpotAmount" style="font-size:28px; color:#ffd966;">0 ❄️</div>
+            <div style="font-size:28px; color:#ffd966;" id="jackpotAmount">0 ❄️</div>
             <select id="jackpotItemSelect" class="glass-btn" style="margin: 10px 0;"></select>
             <button class="glass-btn" onclick="placeJackpotBet()">Сделать ставку</button>
-        </div>
-        <div class="card">
-            <div id="winnersList">🏆 Победители появятся здесь</div>
-        </div>
-    </div>
-
-    <div id="shopPage" class="page">
-        <div class="card">
-            <h3>⭐ Промокоды</h3>
-            <div class="promo-input">
-                <input type="text" id="promoCodeInput" placeholder="Введите промокод">
-                <button class="glass-btn" style="width: auto; padding: 0 20px;" onclick="activatePromo()">Активировать</button>
-            </div>
-        </div>
-        <div class="card">
-            <h3>💎 Пополнение</h3>
-            <p style="font-size:13px; margin-bottom:8px;">Используй команду /buy в боте</p>
-            <button class="glass-btn" onclick="tg.showAlert('Отправь команду /buy в чат с ботом')">Купить снежинки</button>
         </div>
     </div>
 
@@ -365,7 +356,6 @@
             <h3>📊 Статистика</h3>
             <div>Открыто кейсов: <span id="statCases">0</span></div>
             <div>Продано предметов: <span id="statSold">0</span></div>
-            <div>Выиграно в джекпоте: <span id="statJackpot">0</span></div>
         </div>
         <button class="glass-btn" onclick="toggleInventory()">📦 Показать инвентарь</button>
         <div id="inventoryBlock" style="display: none;">
@@ -385,7 +375,6 @@
         <button class="nav-item" onclick="navigateTo('home')"><span>🏠</span><span>Главная</span></button>
         <button class="nav-item" onclick="navigateTo('cases')"><span>📦</span><span>Кейсы</span></button>
         <button class="nav-item" onclick="navigateTo('jackpot')"><span>🎰</span><span>Джекпот</span></button>
-        <button class="nav-item" onclick="navigateTo('shop')"><span>⭐</span><span>Магазин</span></button>
         <button class="nav-item" onclick="navigateTo('profile')"><span>👤</span><span>Профиль</span></button>
         <button class="nav-item" onclick="navigateTo('top')"><span>🏆</span><span>Топ</span></button>
     </div>
@@ -395,22 +384,20 @@
     const tg = window.Telegram.WebApp;
     tg.expand();
     tg.ready();
-    
-    // Скрываем заголовок Telegram
     tg.setHeaderColor('#0a0f1a');
     tg.setBackgroundColor('#0a0f1a');
 
     let state = {
         balance: 0,
         stars: 0,
-        stats: { casesOpened: 0, itemsSold: 0, jackpotWins: 0 },
+        stats: { casesOpened: 0, itemsSold: 0 },
         inventory: []
     };
     let currentPage = 'home';
+    let dataLoaded = false;
 
     const send = (action, data = {}) => tg.sendData(JSON.stringify({ action, ...data }));
 
-    // пользователь
     const user = tg.initDataUnsafe?.user;
     if (user) {
         document.getElementById('userName').innerText = user.first_name;
@@ -431,14 +418,12 @@
         document.getElementById('profileStars').innerHTML = `⭐ ${state.stars}`;
         document.getElementById('statCases').innerText = state.stats.casesOpened;
         document.getElementById('statSold').innerText = state.stats.itemsSold;
-        document.getElementById('statJackpot').innerText = state.stats.jackpotWins;
         renderInventory();
         renderCases();
-        renderHomeCases();
         updateJackpotSelect();
     }
 
-    // кейсы
+    // КЕЙСЫ (рабочие, с анимацией, без траты снежинок)
     const casesData = [
         { id: 'trash', name: 'Trash Gifts', price: 750, img: 'https://i.supaimg.com/35109a74-45db-4273-8c8b-a2cf76a8841a/a32b454a-9582-4904-bc0c-ea441b62a589.png' },
         { id: 'start', name: 'Start Gifts', price: 750, img: 'https://i.supaimg.com/35109a74-45db-4273-8c8b-a2cf76a8841a/a404bd24-934a-42ad-9db1-d368ecf0e760.png' },
@@ -448,50 +433,46 @@
     function renderCases() {
         let html = '';
         casesData.forEach(c => {
-            html += `<div class="case-card" onclick="openCase('${c.id}', ${c.price})">
+            html += `<div class="case-card" onclick="openCase('${c.id}')">
                         ${c.img ? `<img src="${c.img}" loading="lazy">` : '<div style="font-size:48px;">❄️</div>'}
                         <div class="case-name">${c.name}</div>
                         <div class="case-price">${c.price} ❄️</div>
                      </div>`;
         });
         document.getElementById('casesGrid').innerHTML = html;
+        document.getElementById('homeCasesGrid').innerHTML = casesData.slice(0, 2).map(c => `
+            <div class="case-card" onclick="openCase('${c.id}')">
+                ${c.img ? `<img src="${c.img}" loading="lazy">` : '<div style="font-size:32px;">❄️</div>'}
+                <div class="case-name">${c.name}</div>
+                <div class="case-price">${c.price} ❄️</div>
+            </div>
+        `).join('');
     }
 
-    function renderHomeCases() {
-        let html = '';
-        casesData.slice(0, 2).forEach(c => {
-            html += `<div class="case-card" onclick="openCase('${c.id}', ${c.price})">
-                        ${c.img ? `<img src="${c.img}" loading="lazy">` : '<div style="font-size:32px;">❄️</div>'}
-                        <div class="case-name">${c.name}</div>
-                        <div class="case-price">${c.price} ❄️</div>
-                     </div>`;
-        });
-        document.getElementById('homeCasesGrid').innerHTML = html;
-    }
-
-    // анимация открытия кейса
-    function openCase(caseId, price) {
-        if (state.balance < price) {
-            tg.showAlert(`❄️ Недостаточно снежинок! Нужно ${price} ❄️`);
-            return;
-        }
+    // АНИМАЦИЯ ОТКРЫТИЯ КЕЙСА (рабочая, без траты снежинок)
+    function openCase(caseId) {
+        const caseItem = casesData.find(c => c.id === caseId);
+        const rewards = ['🧊 Обычный лед', '❄️ Ледяная крошка', '💎 Ледяной кристалл', '👑 Корона льда'];
+        const randomReward = rewards[Math.floor(Math.random() * rewards.length)];
         
-        // анимация
         let anim = document.createElement('div');
         anim.className = 'case-open-animation';
-        anim.innerHTML = '🎁 Открываем кейс... 🎁<br>❄️✨❄️';
+        anim.innerHTML = `
+            🎁 Открываем ${caseItem.name}... 🎁<br>
+            <div style="font-size:48px; margin: 16px 0;">✨</div>
+            <div style="font-size:20px; color:#ffd966;">${randomReward}</div>
+            <div style="font-size:12px; margin-top:12px;">(тестовое открытие, снежинки не тратятся)</div>
+        `;
         document.body.appendChild(anim);
         
-        // имитация задержки открытия
         setTimeout(() => {
             anim.remove();
-            // отправляем запрос на открытие (для будущего)
+            tg.showAlert(`🎉 Вы выиграли: ${randomReward}! (тест, снежинки не списаны)`);
+            // для будущего: отправляем на сервер
             send('open_case', { case_id: caseId });
-            tg.showAlert(`🎉 Тест: вы открыли кейс! (снежинки не тратятся)`);
-        }, 800);
+        }, 1800);
     }
 
-    // инвентарь
     function renderInventory() {
         const grid = document.getElementById('inventoryGrid');
         if (!state.inventory.length) {
@@ -517,7 +498,6 @@
         block.style.display = block.style.display === 'none' ? 'block' : 'none';
     }
 
-    // джекпот
     function updateJackpotSelect() {
         const sel = document.getElementById('jackpotItemSelect');
         if (!state.inventory.length) {
@@ -533,14 +513,6 @@
         send('place_jackpot_bet', { item_id: state.inventory[idx].id });
     }
 
-    // промокоды
-    function activatePromo() {
-        let code = document.getElementById('promoCodeInput').value.trim();
-        if (!code) return tg.showAlert('Введите промокод');
-        send('activate_promo', { code });
-    }
-
-    // топ
     function requestTop() {
         send('get_top');
     }
@@ -554,22 +526,21 @@
         list.innerHTML = users.map((u, i) => `
             <div class="top-row">
                 <div class="top-rank">${i+1}</div>
-                <div class="top-avatar" style="width:32px;height:32px;background:#1e2a3a;border-radius:32px;display:flex;align-items:center;justify-content:center;">👤</div>
-                <div class="top-info" style="flex:1;">
-                    <div class="top-name">${u.username}</div>
-                    <div class="top-score" style="font-size:11px;color:#8ab3ff;">${u.snowflakes} ❄️</div>
+                <div style="width:32px;height:32px;background:#1e2a3a;border-radius:32px;display:flex;align-items:center;justify-content:center;">👤</div>
+                <div style="flex:1;">
+                    <div>${u.username}</div>
+                    <div style="font-size:11px;color:#8ab3ff;">${u.snowflakes} ❄️</div>
                 </div>
             </div>
         `).join('');
     }
 
-    // навигация
     function navigateTo(page) {
         if (currentPage === page) return;
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(page + 'Page').classList.add('active');
         document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
-        const pages = ['home', 'cases', 'jackpot', 'shop', 'profile', 'top'];
+        const pages = ['home', 'cases', 'jackpot', 'profile', 'top'];
         const idx = pages.indexOf(page);
         if (idx !== -1) document.querySelectorAll('.nav-item')[idx].classList.add('active');
         currentPage = page;
@@ -591,7 +562,7 @@
     }
     setInterval(createSnow, 1000);
 
-    // обработка ответов
+    // обработка ответов от бота
     tg.onEvent('message', function(e) {
         try {
             let data = JSON.parse(e.data);
@@ -603,24 +574,23 @@
             if (data.type === 'stats') {
                 state.stats.casesOpened = data.casesOpened || 0;
                 state.stats.itemsSold = data.itemsSold || 0;
-                state.stats.jackpotWins = data.jackpotWins || 0;
             }
             if (data.type === 'top') renderTop(data.users);
             if (data.type === 'sell_result') {
                 tg.showAlert(data.success ? '✅ Предмет продан!' : '❌ Ошибка');
             }
-            if (data.type === 'promo_result') {
-                if (data.success) {
-                    tg.showAlert(`✅ Промокод! +${data.reward} ❄️`);
-                    state.balance = data.new_balance;
-                } else {
-                    tg.showAlert(data.message || 'Неверный код');
-                }
-            }
             if (data.type === 'jackpot_result') {
                 tg.showAlert(data.win ? `🎉 Выиграли ${data.prize} ❄️!` : '❄️ Не повезло');
             }
             updateUI();
+            
+            if (!dataLoaded) {
+                dataLoaded = true;
+                setTimeout(() => {
+                    document.getElementById('loader').classList.add('hide');
+                    document.getElementById('app').classList.add('loaded');
+                }, 500);
+            }
         } catch(err) { console.warn(err); }
     });
 
@@ -628,6 +598,14 @@
     send('get_balance');
     send('get_inventory');
     send('get_stats');
+
+    // таймаут на всякий случай
+    setTimeout(() => {
+        if (!dataLoaded) {
+            document.getElementById('loader').classList.add('hide');
+            document.getElementById('app').classList.add('loaded');
+        }
+    }, 3000);
 
     document.querySelectorAll('.nav-item')[0].classList.add('active');
 </script>
