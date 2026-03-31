@@ -20,7 +20,7 @@
             overflow-x: hidden;
         }
 
-        /* снежинки (оптимизировано) */
+        /* снежинки */
         .snow {
             position: fixed;
             top: -10px;
@@ -36,6 +36,18 @@
             100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
         }
 
+        /* загрузка */
+        .skeleton {
+            background: linear-gradient(90deg, #1a1f2a 25%, #2a2f3a 50%, #1a1f2a 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 16px;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
         .app {
             max-width: 500px;
             margin: 0 auto;
@@ -44,7 +56,19 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            position: relative;
+        }
+
+        /* баннер */
+        .banner {
+            width: 100%;
+            aspect-ratio: 16 / 5;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* компактная шапка */
@@ -52,7 +76,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 16px;
+            padding: 8px 16px;
             background: rgba(0,0,0,0.5);
             border-bottom: 1px solid rgba(255,255,255,0.08);
         }
@@ -72,97 +96,34 @@
             font-size: 20px;
             overflow: hidden;
         }
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .user-text .name {
-            font-weight: 600;
-            font-size: 15px;
-        }
-        .user-text .balance {
-            font-size: 12px;
-            color: #8ab3ff;
-        }
+        .user-text .name { font-weight: 600; font-size: 14px; }
+        .user-text .balance { font-size: 11px; color: #8ab3ff; }
         .stars-badge {
             background: #2a2a2a;
-            padding: 5px 10px;
+            padding: 4px 10px;
             border-radius: 30px;
-            font-size: 13px;
+            font-size: 12px;
             color: #ffd966;
-        }
-
-        /* квадратная сетка для главной */
-        .home-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin: 20px 16px;
-        }
-        .big-square {
-            background: #111827cc;
-            border-radius: 28px;
-            aspect-ratio: 1 / 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            font-size: 32px;
-            font-weight: bold;
-            backdrop-filter: blur(4px);
-            border: 1px solid #2a3a55;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .big-square:active {
-            transform: scale(0.96);
-            background: #1f2a3e;
-        }
-        .big-square span:first-child {
-            font-size: 48px;
-        }
-        .big-square span:last-child {
-            font-size: 18px;
-        }
-        .full-width {
-            grid-column: span 2;
-            aspect-ratio: auto;
-            padding: 16px;
-            flex-direction: row;
-            gap: 20px;
-        }
-        .full-width span:first-child {
-            font-size: 36px;
         }
 
         /* страницы */
         .page {
             display: none;
-            padding: 16px;
+            padding: 12px;
             flex: 1;
             animation: fadeSlide 0.25s ease;
         }
-        .page.active {
-            display: block;
-        }
+        .page.active { display: block; }
         @keyframes fadeSlide {
-            from {
-                opacity: 0;
-                transform: translateX(6px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            from { opacity: 0; transform: translateX(6px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .card {
             background: rgba(20, 28, 40, 0.7);
-            border-radius: 28px;
-            padding: 18px;
-            margin-bottom: 16px;
+            border-radius: 24px;
+            padding: 16px;
+            margin-bottom: 12px;
             border: 1px solid rgba(255,255,255,0.05);
         }
         .glass-btn {
@@ -177,10 +138,7 @@
             cursor: pointer;
             margin-top: 8px;
         }
-        .glass-btn:active {
-            transform: scale(0.97);
-            background: #2a3a55;
-        }
+        .glass-btn:active { transform: scale(0.97); background: #2a3a55; }
 
         /* кейсы */
         .cases-grid {
@@ -190,48 +148,58 @@
         }
         .case-card {
             background: #0f1622;
-            border-radius: 24px;
+            border-radius: 20px;
             padding: 12px 8px;
             text-align: center;
             border: 1px solid #2a3a55;
             cursor: pointer;
             transition: 0.2s;
         }
-        .case-card:active {
-            transform: scale(0.97);
-        }
+        .case-card:active { transform: scale(0.97); }
         .case-card img {
             width: 100%;
-            border-radius: 20px;
+            border-radius: 16px;
             margin-bottom: 8px;
         }
-        .case-name {
-            font-weight: 600;
-            font-size: 14px;
+        .case-name { font-weight: 600; font-size: 13px; }
+        .case-price { font-size: 11px; color: #8ab3ff; margin: 5px 0; }
+
+        /* анимация открытия кейса */
+        .case-open-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(20px);
+            padding: 30px 40px;
+            border-radius: 60px;
+            text-align: center;
+            z-index: 10000;
+            font-size: 32px;
+            animation: popOpen 0.4s ease;
+            border: 2px solid #ffd966;
         }
-        .case-price {
-            font-size: 12px;
-            color: #8ab3ff;
-            margin: 6px 0;
+        @keyframes popOpen {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         }
 
         /* инвентарь */
         .inventory-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+            gap: 8px;
             margin-top: 12px;
         }
         .inv-item {
             background: #0f1622;
-            border-radius: 20px;
+            border-radius: 16px;
             padding: 8px 4px;
             text-align: center;
-            font-size: 12px;
+            font-size: 11px;
         }
-        .inv-emoji {
-            font-size: 24px;
-        }
+        .inv-emoji { font-size: 24px; }
 
         /* топ */
         .top-list {
@@ -246,6 +214,16 @@
             background: rgba(15,22,34,0.8);
             padding: 8px 12px;
             border-radius: 40px;
+        }
+        .top-rank {
+            width: 28px;
+            height: 28px;
+            background: #1e2a3a;
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
 
         /* магазин */
@@ -262,15 +240,6 @@
             padding: 12px;
             color: white;
         }
-        select, input[type="number"] {
-            width: 100%;
-            background: #111827;
-            border: 1px solid #2a3a55;
-            border-radius: 60px;
-            padding: 12px;
-            color: white;
-            margin-top: 8px;
-        }
 
         /* навигация */
         .bottom-nav {
@@ -278,7 +247,7 @@
             justify-content: space-around;
             background: rgba(0,0,0,0.7);
             backdrop-filter: blur(12px);
-            padding: 8px 12px;
+            padding: 6px 12px;
             border-top: 1px solid rgba(255,255,255,0.08);
             position: sticky;
             bottom: 0;
@@ -289,23 +258,30 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
+            gap: 3px;
             color: #aaa;
-            font-size: 12px;
+            font-size: 11px;
             cursor: pointer;
             padding: 4px 0;
         }
-        .nav-item.active {
-            color: #6ea8fe;
-            text-shadow: 0 0 6px #6ea8fe;
-        }
-        .nav-item span:first-child {
-            font-size: 22px;
+        .nav-item.active { color: #6ea8fe; text-shadow: 0 0 6px #6ea8fe; }
+        .nav-item span:first-child { font-size: 22px; }
+
+        .empty {
+            text-align: center;
+            padding: 20px;
+            color: #aaa;
         }
     </style>
 </head>
 <body>
 <div class="app">
+    <!-- БАННЕР -->
+    <div class="banner">
+        <img src="https://i.supaimg.com/35109a74-45db-4273-8c8b-a2cf76a8841a/1e08651f-bb93-4b96-afa6-d9f0022de9f0.png" alt="FrozenPepe">
+    </div>
+
+    <!-- ШАПКА -->
     <div class="compact-header">
         <div class="user">
             <div class="avatar" id="userAvatar">👤</div>
@@ -317,43 +293,45 @@
         <div class="stars-badge" id="starsBalance">⭐ 0</div>
     </div>
 
-    <!-- ГЛАВНАЯ -->
+    <!-- СТРАНИЦЫ -->
     <div id="homePage" class="page active">
-        <div class="home-grid">
-            <div class="big-square" onclick="navigateTo('cases')">
-                <span>📦</span>
-                <span>Кейсы</span>
+        <!-- быстрые кнопки -->
+        <div class="home-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+            <div class="big-square" style="background:#111827cc; border-radius:24px; padding:16px; text-align:center;" onclick="navigateTo('cases')">
+                <span style="font-size:32px;">📦</span>
+                <div>Кейсы</div>
             </div>
-            <div class="big-square" onclick="navigateTo('jackpot')">
-                <span>🎰</span>
-                <span>Джекпот</span>
+            <div class="big-square" style="background:#111827cc; border-radius:24px; padding:16px; text-align:center;" onclick="navigateTo('jackpot')">
+                <span style="font-size:32px;">🎰</span>
+                <div>Джекпот</div>
             </div>
-            <div class="big-square" onclick="navigateTo('shop')">
-                <span>⭐</span>
-                <span>Магазин</span>
+            <div class="big-square" style="background:#111827cc; border-radius:24px; padding:16px; text-align:center;" onclick="navigateTo('shop')">
+                <span style="font-size:32px;">⭐</span>
+                <div>Магазин</div>
             </div>
-            <div class="big-square" onclick="navigateTo('profile')">
-                <span>👤</span>
-                <span>Профиль</span>
+            <div class="big-square" style="background:#111827cc; border-radius:24px; padding:16px; text-align:center;" onclick="navigateTo('profile')">
+                <span style="font-size:32px;">👤</span>
+                <div>Профиль</div>
             </div>
-            <div class="big-square full-width" onclick="navigateTo('cases')">
-                <span>❄️</span>
-                <span>Открыть кейс</span>
-            </div>
+        </div>
+
+        <!-- превью кейсов на главной -->
+        <div class="card">
+            <h3 style="margin-bottom: 12px;">🎁 Популярные кейсы</h3>
+            <div class="cases-grid" id="homeCasesGrid"></div>
         </div>
     </div>
 
-    <!-- КЕЙСЫ -->
     <div id="casesPage" class="page">
+        <h3 style="margin-bottom: 12px;">📦 Все кейсы</h3>
         <div class="cases-grid" id="casesGrid"></div>
     </div>
 
-    <!-- ДЖЕКПОТ -->
     <div id="jackpotPage" class="page">
         <div class="card" style="text-align:center;">
             <div style="font-size: 36px;">🎰</div>
-            <div class="jackpot-amount" id="jackpotAmount">0 ❄️</div>
-            <select id="jackpotItemSelect"></select>
+            <div class="jackpot-amount" id="jackpotAmount" style="font-size:28px; color:#ffd966;">0 ❄️</div>
+            <select id="jackpotItemSelect" class="glass-btn" style="margin: 10px 0;"></select>
             <button class="glass-btn" onclick="placeJackpotBet()">Сделать ставку</button>
         </div>
         <div class="card">
@@ -361,7 +339,6 @@
         </div>
     </div>
 
-    <!-- МАГАЗИН -->
     <div id="shopPage" class="page">
         <div class="card">
             <h3>⭐ Промокоды</h3>
@@ -371,13 +348,12 @@
             </div>
         </div>
         <div class="card">
-            <h3>💎 Покупка снежинок</h3>
-            <input type="number" id="snowAmount" placeholder="Количество ❄️ (мин 10)">
-            <button class="glass-btn" onclick="buySnow()">Купить за Telegram Stars</button>
+            <h3>💎 Пополнение</h3>
+            <p style="font-size:13px; margin-bottom:8px;">Используй команду /buy в боте</p>
+            <button class="glass-btn" onclick="tg.showAlert('Отправь команду /buy в чат с ботом')">Купить снежинки</button>
         </div>
     </div>
 
-    <!-- ПРОФИЛЬ -->
     <div id="profilePage" class="page">
         <div class="card" style="text-align:center;">
             <div class="avatar" style="width: 70px; height: 70px; margin: 0 auto 12px;" id="profileAvatar">👤</div>
@@ -397,6 +373,13 @@
         </div>
     </div>
 
+    <div id="topPage" class="page">
+        <h3 style="margin-bottom: 12px;">🏆 Топ игроков</h3>
+        <div class="top-list" id="topList">
+            <div class="empty">Загрузка...</div>
+        </div>
+    </div>
+
     <!-- НАВИГАЦИЯ -->
     <div class="bottom-nav">
         <button class="nav-item" onclick="navigateTo('home')"><span>🏠</span><span>Главная</span></button>
@@ -404,6 +387,7 @@
         <button class="nav-item" onclick="navigateTo('jackpot')"><span>🎰</span><span>Джекпот</span></button>
         <button class="nav-item" onclick="navigateTo('shop')"><span>⭐</span><span>Магазин</span></button>
         <button class="nav-item" onclick="navigateTo('profile')"><span>👤</span><span>Профиль</span></button>
+        <button class="nav-item" onclick="navigateTo('top')"><span>🏆</span><span>Топ</span></button>
     </div>
 </div>
 
@@ -411,6 +395,10 @@
     const tg = window.Telegram.WebApp;
     tg.expand();
     tg.ready();
+    
+    // Скрываем заголовок Telegram
+    tg.setHeaderColor('#0a0f1a');
+    tg.setBackgroundColor('#0a0f1a');
 
     let state = {
         balance: 0,
@@ -446,19 +434,21 @@
         document.getElementById('statJackpot').innerText = state.stats.jackpotWins;
         renderInventory();
         renderCases();
+        renderHomeCases();
         updateJackpotSelect();
     }
 
     // кейсы
+    const casesData = [
+        { id: 'trash', name: 'Trash Gifts', price: 750, img: 'https://i.supaimg.com/35109a74-45db-4273-8c8b-a2cf76a8841a/a32b454a-9582-4904-bc0c-ea441b62a589.png' },
+        { id: 'start', name: 'Start Gifts', price: 750, img: 'https://i.supaimg.com/35109a74-45db-4273-8c8b-a2cf76a8841a/a404bd24-934a-42ad-9db1-d368ecf0e760.png' },
+        { id: 'frozen', name: 'Frozen Gifts', price: 1200, img: '' }
+    ];
+
     function renderCases() {
-        const cases = [
-            { name: 'Trash Gifts', price: 750, img: 'https://i.supaimg.com/35109a74-45db-4273-8c8b-a2cf76a8841a/a32b454a-9582-4904-bc0c-ea441b62a589.png' },
-            { name: 'Start Gifts', price: 750, img: 'https://i.supaimg.com/35109a74-45db-4273-8c8b-a2cf76a8841a/a404bd24-934a-42ad-9db1-d368ecf0e760.png' },
-            { name: 'Frozen Gifts', price: 1200, img: '' }
-        ];
         let html = '';
-        cases.forEach(c => {
-            html += `<div class="case-card" onclick="openCaseDemo('${c.name}')">
+        casesData.forEach(c => {
+            html += `<div class="case-card" onclick="openCase('${c.id}', ${c.price})">
                         ${c.img ? `<img src="${c.img}" loading="lazy">` : '<div style="font-size:48px;">❄️</div>'}
                         <div class="case-name">${c.name}</div>
                         <div class="case-price">${c.price} ❄️</div>
@@ -467,23 +457,53 @@
         document.getElementById('casesGrid').innerHTML = html;
     }
 
-    function openCaseDemo(name) {
-        tg.showAlert(`🎉 Тест: открыли ${name} (снежинки не тратятся)`);
+    function renderHomeCases() {
+        let html = '';
+        casesData.slice(0, 2).forEach(c => {
+            html += `<div class="case-card" onclick="openCase('${c.id}', ${c.price})">
+                        ${c.img ? `<img src="${c.img}" loading="lazy">` : '<div style="font-size:32px;">❄️</div>'}
+                        <div class="case-name">${c.name}</div>
+                        <div class="case-price">${c.price} ❄️</div>
+                     </div>`;
+        });
+        document.getElementById('homeCasesGrid').innerHTML = html;
+    }
+
+    // анимация открытия кейса
+    function openCase(caseId, price) {
+        if (state.balance < price) {
+            tg.showAlert(`❄️ Недостаточно снежинок! Нужно ${price} ❄️`);
+            return;
+        }
+        
+        // анимация
+        let anim = document.createElement('div');
+        anim.className = 'case-open-animation';
+        anim.innerHTML = '🎁 Открываем кейс... 🎁<br>❄️✨❄️';
+        document.body.appendChild(anim);
+        
+        // имитация задержки открытия
+        setTimeout(() => {
+            anim.remove();
+            // отправляем запрос на открытие (для будущего)
+            send('open_case', { case_id: caseId });
+            tg.showAlert(`🎉 Тест: вы открыли кейс! (снежинки не тратятся)`);
+        }, 800);
     }
 
     // инвентарь
     function renderInventory() {
         const grid = document.getElementById('inventoryGrid');
         if (!state.inventory.length) {
-            grid.innerHTML = '<div style="grid-column:span 4; text-align:center;">🧊 Пусто</div>';
+            grid.innerHTML = '<div class="empty">🧊 Пусто</div>';
             return;
         }
         grid.innerHTML = state.inventory.map(item => `
             <div class="inv-item">
                 <div class="inv-emoji">${item.emoji || '🎁'}</div>
                 <div>${item.name}</div>
-                <div style="font-size:10px;">${item.value} ❄️</div>
-                <button class="glass-btn" style="font-size:10px; padding:4px; margin-top:4px;" onclick="sellItem('${item.id}', ${item.value})">Продать</button>
+                <div style="font-size:9px;">${item.value} ❄️</div>
+                <button class="glass-btn" style="font-size:9px; padding:4px; margin-top:4px;" onclick="sellItem('${item.id}', ${item.value})">Продать</button>
             </div>
         `).join('');
     }
@@ -513,23 +533,11 @@
         send('place_jackpot_bet', { item_id: state.inventory[idx].id });
     }
 
-    // магазин
+    // промокоды
     function activatePromo() {
         let code = document.getElementById('promoCodeInput').value.trim();
         if (!code) return tg.showAlert('Введите промокод');
         send('activate_promo', { code });
-    }
-
-    function buySnow() {
-        let amount = parseInt(document.getElementById('snowAmount').value);
-        if (isNaN(amount) || amount < 10) {
-            tg.showAlert('Минимум 10 ❄️');
-            return;
-        }
-        // округляем до 10
-        amount = Math.ceil(amount / 10) * 10;
-        send('buy', { amount: amount });
-        tg.showAlert(`⏳ Оформление покупки ${amount} ❄️...`);
     }
 
     // топ
@@ -539,18 +547,17 @@
 
     function renderTop(users) {
         const list = document.getElementById('topList');
-        if (!list) return;
         if (!users || !users.length) {
-            list.innerHTML = '<div class="empty-top">❄️ Пока нет игроков</div>';
+            list.innerHTML = '<div class="empty">❄️ Пока нет игроков</div>';
             return;
         }
         list.innerHTML = users.map((u, i) => `
             <div class="top-row">
                 <div class="top-rank">${i+1}</div>
-                <div class="top-avatar">👤</div>
-                <div class="top-info">
+                <div class="top-avatar" style="width:32px;height:32px;background:#1e2a3a;border-radius:32px;display:flex;align-items:center;justify-content:center;">👤</div>
+                <div class="top-info" style="flex:1;">
                     <div class="top-name">${u.username}</div>
-                    <div class="top-score">${u.snowflakes} ❄️</div>
+                    <div class="top-score" style="font-size:11px;color:#8ab3ff;">${u.snowflakes} ❄️</div>
                 </div>
             </div>
         `).join('');
@@ -562,8 +569,9 @@
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(page + 'Page').classList.add('active');
         document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
-        const idx = { home: 0, cases: 1, jackpot: 2, shop: 3, profile: 4 }[page];
-        if (idx !== undefined) document.querySelectorAll('.nav-item')[idx].classList.add('active');
+        const pages = ['home', 'cases', 'jackpot', 'shop', 'profile', 'top'];
+        const idx = pages.indexOf(page);
+        if (idx !== -1) document.querySelectorAll('.nav-item')[idx].classList.add('active');
         currentPage = page;
         if (page === 'jackpot') updateJackpotSelect();
         if (page === 'profile') renderInventory();
@@ -581,59 +589,46 @@
         document.body.appendChild(snow);
         setTimeout(() => snow.remove(), 5000);
     }
-    setInterval(createSnow, 900);
+    setInterval(createSnow, 1000);
 
-    // обработка ответов от бота
+    // обработка ответов
     tg.onEvent('message', function(e) {
         try {
             let data = JSON.parse(e.data);
-            console.log('Bot response:', data);
-
             if (data.type === 'balance') {
                 state.balance = data.snowflakes || 0;
                 state.stars = data.stars || 0;
             }
-            if (data.type === 'inventory') {
-                state.inventory = data.items || [];
-            }
+            if (data.type === 'inventory') state.inventory = data.items || [];
             if (data.type === 'stats') {
                 state.stats.casesOpened = data.casesOpened || 0;
                 state.stats.itemsSold = data.itemsSold || 0;
                 state.stats.jackpotWins = data.jackpotWins || 0;
             }
-            if (data.type === 'top') {
-                renderTop(data.users);
-            }
+            if (data.type === 'top') renderTop(data.users);
             if (data.type === 'sell_result') {
-                tg.showAlert(data.success ? '✅ Предмет продан!' : '❌ Ошибка продажи');
+                tg.showAlert(data.success ? '✅ Предмет продан!' : '❌ Ошибка');
             }
             if (data.type === 'promo_result') {
                 if (data.success) {
-                    tg.showAlert(`✅ Промокод активирован! +${data.reward} ❄️`);
+                    tg.showAlert(`✅ Промокод! +${data.reward} ❄️`);
                     state.balance = data.new_balance;
                 } else {
-                    tg.showAlert(data.message || 'Неверный промокод');
+                    tg.showAlert(data.message || 'Неверный код');
                 }
             }
             if (data.type === 'jackpot_result') {
-                if (data.win) {
-                    tg.showAlert(`🎉 Вы выиграли ${data.prize} ❄️!`);
-                } else {
-                    tg.showAlert('❄️ Не повезло в этот раз');
-                }
+                tg.showAlert(data.win ? `🎉 Выиграли ${data.prize} ❄️!` : '❄️ Не повезло');
             }
             updateUI();
-        } catch (err) {
-            console.warn('Parse error:', err);
-        }
+        } catch(err) { console.warn(err); }
     });
 
-    // загрузка данных
+    // загрузка
     send('get_balance');
     send('get_inventory');
     send('get_stats');
 
-    // активируем первую вкладку
     document.querySelectorAll('.nav-item')[0].classList.add('active');
 </script>
 </body>
